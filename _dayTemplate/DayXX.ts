@@ -1,6 +1,8 @@
 import { Day } from "../lib/Day";
 
 export class DayXX extends Day {
+    testFilePart1(){ return 'test.txt'};
+    testFilePart2(){ return 'test.txt'};
     part1Example(): string {
         return "???"
     }

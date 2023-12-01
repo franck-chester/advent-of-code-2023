@@ -16,14 +16,14 @@ export abstract class Day {
 
     }
 
-    async readEntries() {
-        this.entries = await this.processLines(
-            path.resolve(this.basePath(), this.isTest ? `${this.basePath()}/${this.testFile()}` : `${this.basePath()}/input.txt`),
+    async readAndReturnEntries(dataFile : string) : Promise<string[]>{
+        return this.processLines(
+            path.resolve(this.basePath(), `${this.basePath()}/${dataFile}` ),
             this.lineParser());
     }
-    testFile() {
-        return 'test.txt'
-    }
+
+    abstract testFilePart1(): string;
+    abstract testFilePart2(): string;
 
     abstract basePath(): string;
 

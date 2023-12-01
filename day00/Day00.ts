@@ -1,6 +1,8 @@
 import { Day } from "../lib/Day";
 
 export class Day00 extends Day {
+    testFilePart1(){ return 'example1.txt'};
+    testFilePart2(){ return 'example2.txt'};
     part1Example(): string {
         return "24000"
     }
@@ -9,8 +11,7 @@ export class Day00 extends Day {
     }
 
 
-
-    part1(entries : string[]): string {
+    part1(entries: string[]): string {
         const elvesCalories = [0];
         let solution = 0;
         let elf = 0;
@@ -31,7 +32,7 @@ export class Day00 extends Day {
     };
 
 
-    part2(entries : string[]): string {
+    part2(entries: string[]): string {
         const elvesCalories = [0];
         let solution = 0;
         let elf = 0;

@@ -1,6 +1,8 @@
 import { Day } from "../lib/Day";
 
 export class Day01 extends Day {
+    testFilePart1(){ return 'example1.txt'};
+    testFilePart2(){ return 'example2.txt'};
 
     parse1(entry: string): { f: number, l: number, r: number } {
         console.log(`Parse 1 : ${entry} ...`);

@@ -42,3 +42,10 @@ day.readEntries().then(() => {
     }
 });
 
+day.readAndReturnEntries(isTest?(isPart2?day.part2Example():day.part1Example()):'input.txt').then((entries) => {
+    console.log(`\n\n SOLUTION ${isTest? "FOR TEST" : ""} ${day.day} part ${isPart2? '2' : 1} : calculated ${isPart2? day.part2(entries) : day.part1(entries)}`);
+    if(isTest){
+        console.log(` SOLUTION ${isTest? "FOR TEST" : ""} ${day.day} part ${isPart2? '2' : 1} : expected   ${isPart2? day.part2Example() : day.part1Example()}`);
+    }
+});
+

@@ -3,10 +3,15 @@ import { Day01 } from './Day01'
 
 const day = new Day01();
 
-
 test("base path points to __dirname", () => expect(day.basePath()).toBe(__dirname));
 
-test("example 1", () => expect(day.part1Example()).toBe("142"));
+//////// PART 1
+
+test('example 1', () => {
+    expect(day.part1Example()).toBe("142");
+    return day.readAndReturnEntries(day.testFilePart1()).then(entries => expect(day.part1(entries)).toBe(day.part1Example()));
+  });
+
 
 describe.each([
     ["1abc2", { f: 1, l: 2, r: 12 }],
@@ -18,28 +23,36 @@ describe.each([
         expect(day.parse1(entry)).toEqual(parsed));
 });
 
-// describe('toNumber', () => {
-//     test("toNumber(1)", () => expect(day.toNumber('1')).toBe(1));
-//     test("toNumber('one')", () => expect(day.toNumber('one')).toBe(1));
-//     test("toNumber(2)", () => expect(day.toNumber('2')).toBe(2));
-//     test("toNumber('two')", () => expect(day.toNumber('two')).toBe(2));
-//     test("toNumber(3)", () => expect(day.toNumber('3')).toBe(3));
-//     test("toNumber('three')", () => expect(day.toNumber('three')).toBe(3));
-//     test("toNumber(4)", () => expect(day.toNumber('4')).toBe(4));
-//     test("toNumber('four')", () => expect(day.toNumber('four')).toBe(4));
-//     test("toNumber(5)", () => expect(day.toNumber('5')).toBe(5));
-//     test("toNumber('five')", () => expect(day.toNumber('five')).toBe(5));
-//     test("toNumber(6)", () => expect(day.toNumber('6')).toBe(6));
-//     test("toNumber('six')", () => expect(day.toNumber('six')).toBe(6));
-//     test("toNumber(7)", () => expect(day.toNumber('7')).toBe(7));
-//     test("toNumber('seven')", () => expect(day.toNumber('seven')).toBe(7));
-//     test("toNumber(8)", () => expect(day.toNumber('8')).toBe(8));
-//     test("toNumber('eight')", () => expect(day.toNumber('eight')).toBe(8));
-//     test("toNumber(9)", () => expect(day.toNumber('9')).toBe(9));
-//     test("toNumber('nine')", () => expect(day.toNumber('nine')).toBe(9));
-//     test("toNumber(9)", () => expect(day.toNumber('9')).toBe(9));
-//     test("toNumber('nine')", () => expect(day.toNumber('nine')).toBe(9));
-// });
+//////// PART 2
+
+test('example 2', () => {
+    expect(day.part2Example()).toBe("281");
+    return day.readAndReturnEntries(day.testFilePart2()).then(entries => expect(day.part2(entries)).toBe(day.part2Example()));
+  });
+
+
+describe('toNumber', () => {
+    test("toNumber(1)", () => expect(day.toNumber('1')).toBe(1));
+    test("toNumber('one')", () => expect(day.toNumber('one')).toBe(1));
+    test("toNumber(2)", () => expect(day.toNumber('2')).toBe(2));
+    test("toNumber('two')", () => expect(day.toNumber('two')).toBe(2));
+    test("toNumber(3)", () => expect(day.toNumber('3')).toBe(3));
+    test("toNumber('three')", () => expect(day.toNumber('three')).toBe(3));
+    test("toNumber(4)", () => expect(day.toNumber('4')).toBe(4));
+    test("toNumber('four')", () => expect(day.toNumber('four')).toBe(4));
+    test("toNumber(5)", () => expect(day.toNumber('5')).toBe(5));
+    test("toNumber('five')", () => expect(day.toNumber('five')).toBe(5));
+    test("toNumber(6)", () => expect(day.toNumber('6')).toBe(6));
+    test("toNumber('six')", () => expect(day.toNumber('six')).toBe(6));
+    test("toNumber(7)", () => expect(day.toNumber('7')).toBe(7));
+    test("toNumber('seven')", () => expect(day.toNumber('seven')).toBe(7));
+    test("toNumber(8)", () => expect(day.toNumber('8')).toBe(8));
+    test("toNumber('eight')", () => expect(day.toNumber('eight')).toBe(8));
+    test("toNumber(9)", () => expect(day.toNumber('9')).toBe(9));
+    test("toNumber('nine')", () => expect(day.toNumber('nine')).toBe(9));
+    test("toNumber(9)", () => expect(day.toNumber('9')).toBe(9));
+    test("toNumber('nine')", () => expect(day.toNumber('nine')).toBe(9));
+});
 
 
 describe.each([
