@@ -26,5 +26,5 @@ npm test -- day00/Day00.test.ts
 [ts-jest](https://jestjs.io/docs/getting-started)
 ## Day 1: 
 
-Shouldn't haver taken this long but I really struggled setting up my test suite, and I really wanted a test suite.
+Shouldn't have taken this long but I really struggled setting up my test suite, and I really wanted a test suite.
 First go at part 2 was running regex.exec in a simple loop, but because of edge cases where number words are blended, like `twone` this wasn't working, so switched to matching backward
