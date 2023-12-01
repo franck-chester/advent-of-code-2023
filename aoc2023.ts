@@ -1,5 +1,5 @@
 import { Day } from "./lib/Day";
-import { Day00 } from './day00/Day00';
+import { Day01 } from './day01/Day01';
 // import { Day02 } from './day02/Day02';
 // import { Day03 } from './day03/Day03';
 // import { Day04 } from './day04/Day04';
@@ -17,7 +17,7 @@ let isTest = process.argv.length == 4 && 'test' == process.argv[3]?.toLowerCase(
          || (process.argv.length == 5 && 'test' == process.argv[4]?.toLowerCase());
 
 switch (process.argv[2]) {
-    case "1": day = new Day00(isTest);break;
+    case "1": day = new Day01(isTest);break;
     // case "2": day = new Day02(isTest);break;
     // case "3": day = new Day03(isTest);break;
     // case "4": day = new Day04(isTest);break;
