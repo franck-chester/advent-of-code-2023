@@ -28,3 +28,7 @@ npm test -- day00/Day00.test.ts
 
 Shouldn't have taken this long but I really struggled setting up my test suite, and I really wanted a test suite.
 First go at part 2 was running regex.exec in a simple loop, but because of edge cases where number words are blended, like `twone` this wasn't working, so switched to matching backward
+
+## Day 2: 
+
+misread part 1, was not looking at individual sets, was adding it all up, then faffed with tests again, still cramming too much into each piece of code
