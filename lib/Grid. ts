@@ -1,0 +1,43 @@
+
+export class Grid<T> {
+    maxX : number;
+    maxY : number;
+    cells : T[] [] 
+
+public static fromEntries(entries : string[], parseCell : (string) => T) { 
+   const grid = new Grid<T>(entries[0].length, entries.length, parseCell(entries[0].charAt(0)))) ;
+   for(let x = 0; x<= grid.maxX; x++) {  
+     for(let y= 0; y <= grid.maxY;y++) {
+       grid.setCells(x, y, parseCell(entries[y].charAt(x)));            
+     } 
+   } 
+   return grid;
+} 
+
+    constructor(width:number, height:number, emptyCellValue : T) {
+        this.cells = [] as T[][] 
+        this.maxX = width - 1;
+        this.maxY = height - 1;
+        for(let x = 0; x<= this.maxX; x++) {
+           this.cells.push([]) ;
+           for(let y = 0; y<= this.maxY; y++) {
+             this.cells[x].push(emptyCellValue) ;          
+           }             
+        } 
+    }  
+
+    cell(x:number, y:number) : T {
+      return this.cells[x][y];
+   } 
+
+   setCell(x:number, y:number, c: T) {
+      this.cells[x][y] = c;
+   } 
+
+
+   subGridCentredOn(x:number, y:number, width:number, height:number) : Grid<T>{
+     const grid = new Grid<T>(width, height, this.cell(x,y))) ;
+
+   } 
+} 
+
