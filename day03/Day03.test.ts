@@ -33,7 +33,25 @@ test('example 1', () => {
 
 //////// PART 2
 
+
+test('isGear', () => {
+  return day.readAndReturnEntries(day.testFilePart1()).then(entries => {
+    expect(day.isGear(3,0, entries)).toBe(false);
+    expect(day.isGear(3,1, entries)).toBe(true);
+    expect(day.isGear(3,8, entries)).toBe(false);
+
+  });
+});
+
+test('isAdjacentToGearSymbol', () => {
+  return day.readAndReturnEntries(day.testFilePart1()).then(entries => {
+    expect(day.isAdjacentToGearSymbol(4,0, entries)).toStrictEqual({adjacent:true, gears:[{x:3,y:1}]});
+
+
+  });
+});
+
 test('example 2', () => {
-  expect(day.part2Example()).toBe("???");
+  expect(day.part2Example()).toBe("467835");
   return day.readAndReturnEntries(day.testFilePart2()).then(entries => expect(day.part2(entries)).toBe(day.part2Example()));
 });
