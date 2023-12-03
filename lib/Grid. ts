@@ -26,18 +26,21 @@ public static fromEntries(entries : string[], parseCell : (string) => T) {
         } 
     }  
 
-    cell(x:number, y:number) : T {
+    getCellAt(x:number, y:number) : T {
       return this.cells[x][y];
    } 
 
-   setCell(x:number, y:number, c: T) {
+   setCellAt(x:number, y:number, c: T) {
       this.cells[x][y] = c;
    } 
 
-
-   subGridCentredOn(x:number, y:number, width:number, height:number) : Grid<T>{
+   // This creates a shallow copy
+   // changes to this Grid cells will affect
+   // the original Grid cells as well
+   subGridCentredOn(X:number, Y:number, width:number, height:number) : Grid<T>{
      const grid = new Grid<T>(width, height, this.cell(x,y))) ;
-
+     for(let x = 
+     
    } 
 } 
 
