@@ -14,8 +14,9 @@ test('doubleNTimes', () => {
   expect(doubleNTimes(4)).toBe(8);
 });
 
-test('doubleNTimes', () => {
+test('parseCard', () => {
   expect(parseCard('Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53')).toStrictEqual({
+    cardId: "1",
     winningNumbers: new Set(['41', '48', '83', '86', '17']),
     numbers: ['83', '86', '6', '31', '17', '9', '48', '53']
   }
@@ -25,7 +26,7 @@ test('doubleNTimes', () => {
 test('findWinningNumbers', () => {
   expect(findWinningNumbers(
     ['83', '86', '6', '31', '17', '9', '48', '53'], 
-    new Set(['41', '48', '83', '86', '17']))).toStrictEqual(['41','48','83','86',17])
+    new Set(['41', '48', '83', '86', '17']))).toStrictEqual(4)
   }
 );
 

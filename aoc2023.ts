@@ -3,7 +3,7 @@ import { Day01 } from './day01/Day01';
 import { Day02 } from './day02/Day02';
 import { Day03 } from './day03/Day03';
 import { Day04 } from './day04/Day04';
-// import { Day05 } from './day05/Day05';
+import { Day05 } from './day05/Day05';
 // import { Day06 } from './day06/Day06';
 // import { Day07 } from './day07/Day07';
 // import { Day08 } from './day08/Day08';
@@ -21,7 +21,7 @@ switch (process.argv[2]) {
     case "2": day = new Day02(isTest);break;
     case "3": day = new Day03(isTest);break;
     case "4": day = new Day04(isTest);break;
-    // case "5": day = new Day05(isTest);break;
+    case "5": day = new Day05(isTest);break;
     // case "6": day = new Day06(isTest);break;
     // case "7": day = new Day07(isTest);break;
     // case "8": day = new Day08(isTest);break;
