@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { Day04, doubleNTimes, parseCard, findWinningNumbers } from './Day04'
+import { Day04, doubleNTimes, parseCard, findWinningNumbers, Card } from './Day04'
 
 const day = new Day04();
 test("base path points to __dirname", () => expect(day.basePath()).toBe(__dirname));
@@ -14,19 +14,20 @@ test('doubleNTimes', () => {
   expect(doubleNTimes(4)).toBe(8);
 });
 
-test('parseCard', () => {
-  expect(parseCard('Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53')).toStrictEqual({
+const testCards = [
+  {
     cardId: "1",
     winningNumbers: new Set(['41', '48', '83', '86', '17']),
     numbers: ['83', '86', '6', '31', '17', '9', '48', '53']
   }
-  );
+] as Card[];
+
+test('parseCard', () => {
+  expect(parseCard('Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53')).toStrictEqual(testCards[0]);
 });
 
 test('findWinningNumbers', () => {
-  expect(findWinningNumbers(
-    ['83', '86', '6', '31', '17', '9', '48', '53'], 
-    new Set(['41', '48', '83', '86', '17']))).toStrictEqual(4)
+  expect(findWinningNumbers(testCards[0])).toStrictEqual(4)
   }
 );
 

@@ -73,12 +73,14 @@ export class Day04 extends Day {
 
 }
 
-export function findWinningNumbers(numbers: string[], winningNumbers: Set<string>) {
-    const myWinningNumbers = numbers.filter((n) => winningNumbers.has(n));
+export interface Card { cardId: string, numbers: string[], winningNumbers: Set<string> }
+
+export function findWinningNumbers(card: Card) {
+    const myWinningNumbers = card.numbers.filter((n) => card.winningNumbers.has(n));
     const W = myWinningNumbers.length;
     return W;
 }
-interface Card { cardId: string, numbers: string[], winningNumbers: Set<string> }
+
 export function parseCard(entry: string): Card {
     let matches = entry.match(/Card\s+(?<card>\d+): (?<winningNumbers>.*) \| (?<numbers>.*)/);
     if (!matches || !matches.groups) throw `Cant parse ${entry}`;
