@@ -39,6 +39,6 @@ test('example 1', () => {
 //////// PART 2
 
 test('example 2', () => {
-  expect(day.part2Example()).toBe("???");
+  expect(day.part2Example()).toBe("30");
   return day.readAndReturnEntries(day.testFilePart2()).then(entries => expect(day.part2(entries)).toBe(day.part2Example()));
 });

@@ -45,4 +45,10 @@ Looking at my faster colleagues solutions, the biggest difference is that by now
 So now, on my todo list are:
 - Grid object with built in rows and columns iterator, `nearNeighbours(x, y)`, `subGridAt(x, y)`, etc...
 
-Also I have too many class members that ought to be functions. In fact, this might be an occasion tonuse functional programming and monads... or not (again, hesd space) 
+Also I have too many class members that ought to be functions. In fact, this might be an occasion tonuse functional programming and monads... or not (again, head space) 
+
+## Day 4: Scratchcards
+
+Not a particularly difficult one, I'm just very slow.
+
+Got stupidly caught by the extra padding spaces between the numbers in part 1
