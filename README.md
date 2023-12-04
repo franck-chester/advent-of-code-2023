@@ -28,6 +28,13 @@ npm test -- day00/Day00.test.ts
 
 I'm not being particularly smart with TS, but using strong types saves me from pretty stupid mistakes. 
 
+## Adding a new day
+
+I've created [hygen](https://www.hygen.io/docs/quick-start) templates.
+Once hygen is installed (`npm i -g hygen`) adding a new day is as simple as typing:
+
+`hygen day add --day 06`  NB: use a 2 digit day!
+
 ## Day 1: Trebuchet?!
 
 Shouldn't have taken this long but I really struggled setting up my test suite, and I really wanted a test suite.
