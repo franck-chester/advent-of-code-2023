@@ -15,8 +15,8 @@ export class Day04 extends Day {
         for (let i = 0; i < entries.length; i++) {
             console.log(`entry = ${entries[i]}`);
             let entry = entries[i];
-            const { numbers, winningNumbers } = parseCard(entry);
-            const W = findWinningNumbers(numbers, winningNumbers);
+            const card = parseCard(entry);
+            const W = findWinningNumbers(card);
             solution += doubleNTimes(W);
         }
         return `${solution}`;
@@ -36,7 +36,7 @@ export class Day04 extends Day {
         for (let i = 0; i < entries.length; i++) {
             const card = cards[i];
             // is it a winner?
-            const w = findWinningNumbers(card.numbers, card.winningNumbers);
+            const w = findWinningNumbers(card);
             // how many have we got?
             const cardCount = cardCounter.has(card.cardId) ? cardCounter.get(card.cardId)! : 0;
             if (w > 0) {
