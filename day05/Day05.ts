@@ -1,5 +1,7 @@
 import { Day } from "../lib/Day";
 
+let rangeMappingInvocations = 0;
+
 export interface Range {
     start: number,
     end: number
@@ -95,7 +97,7 @@ export function walkThroughMaps(seed: number, maps: Map<string, Mapper>): number
 }
 
 export function rangeMapping(sourceRange: Range, map: Mapper): Range[] {
-    console.log(`  rangeMapping(${JSON.stringify(sourceRange)}, map})...`);
+    console.log(`  (${rangeMappingInvocations++}) rangeMapping(${JSON.stringify(sourceRange)}, map})...`);
     if (!map) throw `Undefined Map!`;
     let current = sourceRange.start;
     let mappedRanges = [] as Range[];
@@ -187,11 +189,13 @@ export class Day05 extends Day {
                 destinationRanges = [];
                 sourceRanges.forEach(range=>destinationRanges.push(...rangeMapping(range, map)));
                 step = map.destination;
-                console.log(`part2 : step = ${step}, ranges = ${JSON.stringify(sourceRanges)} => ${destinationRanges}`)
+                console.log(`part2 : step = ${step}, ranges = ${JSON.stringify(sourceRanges)} => ${JSON.stringify(destinationRanges)}`)
                 sourceRanges = destinationRanges;
             } while (step != 'location')
             destinationRanges.forEach(r => locations.push(r.start));
         }
+
+        console.log(`part2 : ${rangeMappingInvocations} rangeMappingInvocations,  ${locations.length} locations calculated`)
 
         return `${Math.min(...locations)}`;
     };

@@ -26,11 +26,13 @@ switch (process.argv[2]) {
         process.exit(-1);
     }
 }
-
+const startTime = performance.now();
 day.readAndReturnEntries(isTest?(isPart2?day.testFilePart2():day.testFilePart1()):'input.txt').then((entries) => {
-    console.log(`\n\n SOLUTION ${isTest? "FOR TEST" : ""} ${day.day} part ${isPart2? '2' : 1} : calculated ${isPart2? day.part2(entries) : day.part1(entries)}`);
+    console.log(`\n\n ${'-'.repeat(80)}\n SOLUTION ${isTest? "FOR TEST" : ""} ${day.day} part ${isPart2? '2' : 1} : calculated ${isPart2? day.part2(entries) : day.part1(entries)}`);
     if(isTest){
         console.log(` SOLUTION ${isTest? "FOR TEST" : ""} ${day.day} part ${isPart2? '2' : 1} : expected   ${isPart2? day.part2Example() : day.part1Example()}`);
     }
+    const endTime = performance.now();
+    console.log(` Time elapsed : ${Math.round(endTime-startTime)} ms`);
 });
 
