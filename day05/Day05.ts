@@ -7,9 +7,7 @@ export interface range {
 export interface Mapper {
     source: string,
     destination: string,
-    sourceRanges: range[],
-    destinationRanges: range[]
-
+    ranges: {source : range, destination:range}[]
 }
 
 
@@ -19,29 +17,27 @@ export function parseEmptyMap(entry: string): Mapper | undefined {
         return {
             source: m.groups!.source,
             destination: m.groups!.destination,
-            sourceRanges: [],
-            destinationRanges: []
+            ranges: []
         }
     }
     return undefined;
 }
 
 export function parseRangesAndAddToMap(entry: string, map: Mapper): Mapper | undefined {
-    console.log(`    parseRangesAndAddToMap(${entry}, ${JSON.stringify(map)})...`)
+    //console.log(`    parseRangesAndAddToMap(${entry}, ${JSON.stringify(map)})...`)
     let m = entry.match(/(?<destinationStart>\d*) (?<sourceStart>.*) (?<length>.*)/);
     if (m) {
         const length = parseInt(m.groups!.length);
         const sourceStart = parseInt(m.groups!.sourceStart);
         const destinationStart = parseInt(m.groups!.destinationStart);
-        map.sourceRanges.push({
+        map.ranges.push({source: {
             start: sourceStart,
             end: sourceStart + length - 1
 
-        });
-        map.destinationRanges.push({
+        }, destination : {
             start: destinationStart,
             end: destinationStart + length - 1
-        });
+        }})
         return map;
     }
     return undefined;
@@ -63,19 +59,19 @@ export function parseMaps(entries: string[]) : Map<string, Mapper> {
             }
         }
     }
-    console.log(`parseMaps() : ${JSON.stringify(maps,null, ' ')}`)
+    console.log(`parseMaps() : ${JSON.stringify(Object.fromEntries(maps),null, 2)}`)
     return maps;
 }
 
 
 export function mapping(start: number, map: Mapper): number {
     // find source range 
-    console.log(`  mapping(${start}, ${JSON.stringify(map)})...`)
+    //console.log(`  mapping(${start}, ${JSON.stringify(map)})...`)
     if(!map) throw `Undefined Map!`;
-    const index = map.sourceRanges.findIndex(r => r.start <= start && start <= r.end);
+    const index = map.ranges.findIndex(r => r.source.start <= start && start <= r.source.end);
     if (index > -1) {
-        const sourceRange = map.sourceRanges[index];
-        const destinationRange = map.destinationRanges[index];
+        const sourceRange = map.ranges[index].source;
+        const destinationRange = map.ranges[index].destination;
         return start + (destinationRange.start - sourceRange.start)
     }
     return start;
@@ -84,7 +80,7 @@ export function walkThroughMaps(seed : number, maps:Map<string, Mapper> ) : numb
     let step = 'seed';
     let location = seed;
     do{
-        console.log(`walkThroughMaps(${seed}, ...) : location = ${location}, step = ${step}...`)
+        //console.log(`walkThroughMaps(${seed}, ...) : location = ${location}, step = ${step}...`)
         let map = maps.get(step)!;
         if(!map) throw `No map for step '${step}'!`;
         location = mapping(location,map);
@@ -101,7 +97,7 @@ export class Day05 extends Day {
         return "35"
     }
     part2Example(): string {
-        return "???"
+        return "46"
     }
 
 
@@ -113,11 +109,30 @@ export class Day05 extends Day {
     };
 
     part2(entries: string[]): string {
-        let solution = "???"
-        for (let i = 0; i < entries.length; i++) {
-            console.log(`entry = ${entries[i]}`);
+        const seedsRanges = entries[0].match(/seeds: (?<seeds>.*)/)!.groups!.seeds.split(' ').map(e => parseInt(e));
+        const maps = parseMaps(entries);
+        const locations = [] as number[];
+        
+        for(let i=0; i< seedsRanges.length; i=i+2){
+            const firstSeed = seedsRanges[i]; 
+            const lastSeed = seedsRanges[i]+seedsRanges[i+1];
+
+            const seedMap = maps.get('seed')!;
+            const soil = [] as number[];
+            // find first range that starts after the first seed
+            const i1 = seedMap.ranges.findIndex(r=>r.source.start >= firstSeed);
+            if(i1 > -1){
+                // first seed is before any mapping, so won't be mapped
+                soil.push(firstSeed);
+            }
+            else{
+                soil.push(mapping(firstSeed,seedMap));
+            }
+
+            // first seed that falls in a range would be beginning of that first range
+            //let nextSeed = r.start
         }
-        return `${solution}`;
+        return `${Math.min(...locations)}`;
     };
 
     // boiler plate
