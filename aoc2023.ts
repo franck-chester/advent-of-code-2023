@@ -4,8 +4,6 @@ import { Day02 } from './day02/Day02';
 import { Day03 } from './day03/Day03';
 import { Day04 } from './day04/Day04';
 import { Day05 } from './day05/Day05';
-import { Day06 } from './day06/Day06';
-import { Day10 } from './day10/Day10';
 // end imports
 
 var day: Day;
