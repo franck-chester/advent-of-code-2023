@@ -130,7 +130,6 @@ const testMap = new Map<string, Mapper>()
 testMaps.forEach(m => testMap.set(m.source, m));
 
 //////// PART 1
-
 test('parseEmptyMap(entry: string): Mapper | undefined', () => {
   expect(parseEmptyMap('seed-to-soil map:')).toStrictEqual(testEmptyMap01);
 });
@@ -163,16 +162,12 @@ test('walkThroughMaps(seed : number, maps:Map<string, Mapper> ) : number', () =>
   expect(walkThroughMaps(13, testMap)).toBe(35);
 });
 
-
-
 test('example 1', () => {
   expect(day.part1Example()).toBe("35");
   return day.readAndReturnEntries(day.testFilePart1()).then(entries => expect(day.part1(entries)).toBe(day.part1Example()));
 });
 
-
 //////// PART 2
-
 test('example 2', () => {
   expect(day.part2Example()).toBe("46");
   return day.readAndReturnEntries(day.testFilePart2()).then(entries => expect(day.part2(entries)).toBe(day.part2Example()));
