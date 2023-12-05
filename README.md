@@ -59,3 +59,16 @@ Also I have too many class members that ought to be functions. In fact, this mig
 Not a particularly difficult one, I'm just very slow.
 
 Got stupidly caught by the extra padding spaces between the numbers in part 1
+
+## Day 5: If You Give A Seed A Fertilizer
+
+Part 1 was a lot of parsing but not too hard
+
+Part 2 however couldn't be brute forced, had to have a proper think:
+Trick was to map the start and end of each range, creating additional ranges if required, so that the solution 
+was the smallest starting value of the final ranges identified
+This required me to refactor my arrays, initially started with separate arrays for source and destination, 
+but in order to be able to sort the ranges so that the first one was always the one with the smallest staring source, 
+had to combine them in a single array of source+destination.
+
+Not that complicated but then again I am not that smart!

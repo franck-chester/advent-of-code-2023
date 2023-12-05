@@ -1,13 +1,13 @@
 import { Day } from "../lib/Day";
 
-export interface range {
+export interface Range {
     start: number,
     end: number
 }
 export interface Mapper {
     source: string,
     destination: string,
-    ranges: {source : range, destination:range}[]
+    ranges: { source: Range, destination: Range }[]
 }
 
 
@@ -30,20 +30,22 @@ export function parseRangesAndAddToMap(entry: string, map: Mapper): Mapper | und
         const length = parseInt(m.groups!.length);
         const sourceStart = parseInt(m.groups!.sourceStart);
         const destinationStart = parseInt(m.groups!.destinationStart);
-        map.ranges.push({source: {
-            start: sourceStart,
-            end: sourceStart + length - 1
+        map.ranges.push({
+            source: {
+                start: sourceStart,
+                end: sourceStart + length - 1
 
-        }, destination : {
-            start: destinationStart,
-            end: destinationStart + length - 1
-        }})
+            }, destination: {
+                start: destinationStart,
+                end: destinationStart + length - 1
+            }
+        })
         return map;
     }
     return undefined;
 }
 
-export function parseMaps(entries: string[]) : Map<string, Mapper> {
+export function parseMaps(entries: string[]): Map<string, Mapper> {
     console.log(`parseMaps()...`)
     const maps = new Map<string, Mapper>();
 
@@ -53,13 +55,15 @@ export function parseMaps(entries: string[]) : Map<string, Mapper> {
         if (map) {
             maps.set(map.source, map);
             while (i++ < entries.length) {
-                if(!entries[i] || entries[i].length == 0) break;
+                if (!entries[i] || entries[i].length == 0) break;
                 console.log(` ...entry = '${entries[i]}', line = ${i}`);
                 parseRangesAndAddToMap(entries[i], map);
             }
+            // sort the ranges - very important for later!!
+            map.ranges = map.ranges.sort((a,b) => a.source.start - b.source.start);
         }
     }
-    console.log(`parseMaps() : ${JSON.stringify(Object.fromEntries(maps),null, 2)}`)
+    console.log(`parseMaps() : ${JSON.stringify(Object.fromEntries(maps), null, 2)}`)
     return maps;
 }
 
@@ -67,7 +71,7 @@ export function parseMaps(entries: string[]) : Map<string, Mapper> {
 export function mapping(start: number, map: Mapper): number {
     // find source range 
     //console.log(`  mapping(${start}, ${JSON.stringify(map)})...`)
-    if(!map) throw `Undefined Map!`;
+    if (!map) throw `Undefined Map!`;
     const index = map.ranges.findIndex(r => r.source.start <= start && start <= r.source.end);
     if (index > -1) {
         const sourceRange = map.ranges[index].source;
@@ -76,18 +80,73 @@ export function mapping(start: number, map: Mapper): number {
     }
     return start;
 }
-export function walkThroughMaps(seed : number, maps:Map<string, Mapper> ) : number {
+export function walkThroughMaps(seed: number, maps: Map<string, Mapper>): number {
     let step = 'seed';
     let location = seed;
-    do{
+    do {
         //console.log(`walkThroughMaps(${seed}, ...) : location = ${location}, step = ${step}...`)
         let map = maps.get(step)!;
-        if(!map) throw `No map for step '${step}'!`;
-        location = mapping(location,map);
+        if (!map) throw `No map for step '${step}'!`;
+        location = mapping(location, map);
         step = map.destination;
-    }while(step != 'location')
+    } while (step != 'location')
     console.log(`walkThroughMaps(${seed}) => ${location}`);
     return location;
+}
+
+export function rangeMapping(sourceRange: Range, map: Mapper): Range[] {
+    console.log(`  rangeMapping(${JSON.stringify(sourceRange)}, map})...`);
+    if (!map) throw `Undefined Map!`;
+    let current = sourceRange.start;
+    let mappedRanges = [] as Range[];
+    while (current < sourceRange.end) {
+        console.log(`  rangeMapping() current = ${current}...`)
+        let mappedRange = {start : -1, end: -1} as Range;
+        // does position fall within a range?
+        let index = map.ranges.findIndex(r => r.source.start <= current && current <= r.source.end);
+        if (index == -1) {
+            // position is outside any existing range -> no mapping
+            mappedRange.start = current;
+            // next position is the start of the first range that starts after the current position
+            // only works if ranges have been sorted by source start!!
+            index = map.ranges.findIndex(r => r.source.start > current);
+            if (index == -1) {
+                // no range starts after current position - we're done
+                mappedRange.end = sourceRange.end
+                mappedRanges.push(mappedRange);
+                console.log(`  (A) rangeMapping() current = ${current} map to ${JSON.stringify(mappedRange)}`)
+                break;
+            }
+            current = map.ranges[index].source.start;
+            mappedRange.end = current;
+            console.log(`  (B) rangeMapping() current = ${current} map to ${JSON.stringify(mappedRange)}`)
+            mappedRanges.push(mappedRange);
+            continue;
+        }
+        // position falls within a range -> mapping
+        mappedRange.start = mapping(current, map);
+
+        // next position is the smallest of either the input or mapping range end
+        current = Math.min(sourceRange.end, map.ranges[index].source.end);
+        mappedRange.end = mapping(current, map);
+        if(current == map.ranges[index].source.end){
+            // we've reached the end of the mapping range - increment current
+            console.log(`  (C) rangeMapping() current = ${current} map to ${JSON.stringify(mappedRange)}`)
+            mappedRanges.push(mappedRange);
+            current++;
+            continue;
+        }
+        console.log(`  (D) rangeMapping() current = ${current} map to ${JSON.stringify(mappedRange)}`)
+        mappedRanges.push(mappedRange);
+
+    }
+
+    // sort the ranges - very important for later!!
+    mappedRanges = mappedRanges.sort((a,b) => a.start - b.start);
+
+    console.log(`  rangeMapping(${JSON.stringify(sourceRange)}, ${JSON.stringify(map)}) : ${JSON.stringify(mappedRanges)} : DONE`)
+
+    return mappedRanges;
 }
 
 export class Day05 extends Day {
@@ -112,26 +171,28 @@ export class Day05 extends Day {
         const seedsRanges = entries[0].match(/seeds: (?<seeds>.*)/)!.groups!.seeds.split(' ').map(e => parseInt(e));
         const maps = parseMaps(entries);
         const locations = [] as number[];
-        
-        for(let i=0; i< seedsRanges.length; i=i+2){
-            const firstSeed = seedsRanges[i]; 
-            const lastSeed = seedsRanges[i]+seedsRanges[i+1];
+        let destinationRanges = [] as Range[];
+        for (let i = 0; i < seedsRanges.length; i = i + 2) {
+            let sourceRanges = [{
+                start: seedsRanges[i],
+                end: seedsRanges[i] + seedsRanges[i + 1] -1
+            }];
 
-            const seedMap = maps.get('seed')!;
-            const soil = [] as number[];
-            // find first range that starts after the first seed
-            const i1 = seedMap.ranges.findIndex(r=>r.source.start >= firstSeed);
-            if(i1 > -1){
-                // first seed is before any mapping, so won't be mapped
-                soil.push(firstSeed);
-            }
-            else{
-                soil.push(mapping(firstSeed,seedMap));
-            }
+            let step = 'seed';
 
-            // first seed that falls in a range would be beginning of that first range
-            //let nextSeed = r.start
+            do {
+                console.log(`part2 : step = ${step}, ranges = ${JSON.stringify(sourceRanges)}...`)
+                let map = maps.get(step)!;
+                if (!map) throw `No map for step '${step}'!`;
+                destinationRanges = [];
+                sourceRanges.forEach(range=>destinationRanges.push(...rangeMapping(range, map)));
+                step = map.destination;
+                console.log(`part2 : step = ${step}, ranges = ${JSON.stringify(sourceRanges)} => ${destinationRanges}`)
+                sourceRanges = destinationRanges;
+            } while (step != 'location')
+            destinationRanges.forEach(r => locations.push(r.start));
         }
+
         return `${Math.min(...locations)}`;
     };
 
