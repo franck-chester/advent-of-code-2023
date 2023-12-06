@@ -72,3 +72,9 @@ but in order to be able to sort the ranges so that the first one was always the 
 had to combine them in a single array of source+destination.
 
 Not that complicated but then again I am not that smart!
+
+## Day 6: Wait For It
+
+surprisingly easy - expected part 2 to use numbers too big for the basic method I used for part 1 , but no, it worked.
+part 1 :  Time elapsed : 15 ms
+part 2 :  Time elapsed : 912 ms
