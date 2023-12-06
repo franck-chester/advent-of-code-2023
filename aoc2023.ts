@@ -5,6 +5,7 @@ import { Day03 } from './day03/Day03';
 import { Day04 } from './day04/Day04';
 import { Day05 } from './day05/Day05';
 import { Day06 } from './day06/Day06';
+import { Day07 } from './day07/Day07';
 // end imports
 
 var day: Day;
@@ -20,6 +21,7 @@ switch (process.argv[2]) {
     case "4": day = new Day04(isTest);break;
     case "5": day = new Day05(isTest);break;
     case "6": day = new Day06(isTest);break;
+    case "7": day = new Day07(isTest);break;
     case "test":
     default: {
         console.log("You must specify a day : ts-node aoc2022.ts <day index> [test]");
