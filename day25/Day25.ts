@@ -1,9 +1,7 @@
-import { AdventOfCodeChallenge } from "../lib/AdventOfCodeChallenge";
-
 ///////////////////
 // BOILER PLATE  //
 ///////////////////
-const day = 'Day07';
+const day = 'Day25';
 export function part1(entries: string[]): string { return part1Implementation(entries); };
 part1.day = day;
 part1.testFile = 'test.txt';

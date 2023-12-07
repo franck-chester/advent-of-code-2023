@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { determineDataFileName, readEntriesFromDataFile } from "../lib/AdventOfCodeChallenge";
-import { calculateMaxDistanceForHold, calculateOptions, part1, part2 } from './Day07'
+import { calculateMaxDistanceForHold, calculateOptions, part1, part2 } from './Day25'
 
 
 //////// PART 1
