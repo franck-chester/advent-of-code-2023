@@ -1,5 +1,22 @@
-import { Day } from "../lib/Day";
+///////////////////
+// BOILER PLATE  //
+///////////////////
+const day = "Day07";
+export function part1(entries: string[]): string { return part1Implementation(entries); };
+part1.day = day;
+part1.testFile = 'test.txt';
+part1.example = '???';
+part1.inputFile = 'input.txt';
 
+export function part2(entries: string[]): string { return part2Implementation(entries); };
+part2.day = day;
+part2.testFile = 'test.txt';
+part2.example = '???';
+part2.inputFile = 'input.txt';
+
+/////////////////////////////
+// ACTUAL CODE - Part ONE  //
+/////////////////////////////
 const symbolsListPart1 = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'];
 export const symbolStrengthPart1 = new Map<string, number>();
 symbolsListPart1.reverse().forEach((s, i) => symbolStrengthPart1.set(s, i));
@@ -102,18 +119,11 @@ export function compareHands(a: Hand, b: Hand, symbolStrength: Map<string, numbe
 export function sortHandsInAscendingRankingOrder(hands: Hand[], symbolStrength: Map<string, number>) {
     hands.sort((a, b) => compareHands(b, a, symbolStrength));
 }
-export class Day07 extends Day {
-    testFilePart1() { return 'test.txt' };
-    testFilePart2() { return 'test.txt' };
-    part1Example(): string {
-        return "6440"
-    }
-    part2Example(): string {
-        return "5905"
-    }
 
-    part1(entries: string[]): string {
-        let solution = 0
+
+
+function part1Implementation(entries: string[]) {
+    let solution = 0
         const hands = [] as Hand[];
         for (let i = 0; i < entries.length; i++) {
             console.log(`entry = ${entries[i]}`);
@@ -124,10 +134,13 @@ export class Day07 extends Day {
         sortHandsInAscendingRankingOrder(hands, symbolStrengthPart1);
         hands.forEach((h, i) => solution += (i + 1) * h.bid);
         return `${solution}`;
-    };
+}
 
-    part2(entries: string[]): string {
-        let solution = 0
+/////////////////////////////
+// ACTUAL CODE - Part TWO  //
+/////////////////////////////
+function part2Implementation(entries: string[]) {
+    let solution = 0
         const hands = [] as Hand[];
         for (let i = 0; i < entries.length; i++) {
             console.log(`entry = ${entries[i]}`);
@@ -138,14 +151,4 @@ export class Day07 extends Day {
         sortHandsInAscendingRankingOrder(hands, symbolStrengthPart2);
         hands.forEach((h, i) => solution += (i + 1) * h.bid);
         return `${solution}`;
-    };
-
-    // boiler plate
-
-    basePath(): string {
-        return __dirname;
-    };
-
 }
-
-

@@ -5,7 +5,7 @@ import { Day03 } from './day03/Day03';
 import { Day04 } from './day04/Day04';
 import { Day05 } from './day05/Day05';
 import { Day06 } from './day06/Day06';
-import { Day07 } from './day07/Day07';
+import { Day07 } from './day07-old/Day07';
 // end imports
 
 var day: Day;

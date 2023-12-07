@@ -1,40 +1,35 @@
 ---
-to: day<%= day %>/Day<%= day %>.ts
+to: day<%= ('0'+day).slice(-4) %>/Day<%= ('0'+day).slice(-4) %>.ts
 unless_exists: true
 ---
+///////////////////
+// BOILER PLATE  //
+///////////////////
+const day = "Day<%= ('0'+day).slice(-4) %>";
+export function part1(entries: string[]): string { return part1Implementation(entries); };
+part1.day = day;
+part1.testFile = 'test.txt';
+part1.example = '???';
+part1.inputFile = 'input.txt';
 
-import { Day } from "../lib/Day";
+export function part2(entries: string[]): string { return part2Implementation(entries); };
+part2.day = day;
+part2.testFile = 'test.txt';
+part2.example = '???';
+part2.inputFile = 'input.txt';
 
-export class Day<%= day %> extends Day {
-    testFilePart1(){ return 'test.txt'};
-    testFilePart2(){ return 'test.txt'};
-    part1Example(): string {
-        return "???"
-    }
-    part2Example(): string {
-        return "???"
-    }
+/////////////////////////////
+// ACTUAL CODE - Part ONE  //
+/////////////////////////////
+function part1Implementation(entries: string[]) {
+    let solution = '???'
+    return `${solution}`;
+}
 
-    part1(entries : string[]): string {
-        let solution = "???"
-        for (let i = 0; i < entries.length; i++) {
-            console.log(`entry = ${entries[i]}`);
-        }
-        return `${solution}`;
-    };
-
-    part2(entries : string[]): string {
-        let solution = "???"
-        for (let i = 0; i < entries.length; i++) {
-            console.log(`entry = ${entries[i]}`);
-        }
-        return `${solution}`;
-    };
-
-    // boiler plate
-
-    basePath(): string {
-        return __dirname;
-    };
-
+/////////////////////////////
+// ACTUAL CODE - Part TWO  //
+/////////////////////////////
+function part2Implementation(entries: string[]) {
+    let solution = '???'
+    return `${solution}`;
 }

@@ -1,24 +1,21 @@
 ---
-to: day<%= day %>/Day<%= day %>.test.ts
+to: day<%= ('0'+day).slice(-4) %>/Day<%= ('0'+day).slice(-4) %>.test.ts
 unless_exists: true
 ---
-import { describe, expect, test } from '@jest/globals';
-import { Day<%= day %> } from './Day<%= day %>'
+import { expect, test } from '@jest/globals';
+import { part1, part2} from './Day<%= ("0"+day).slice(-4) %>'
 
-const day = new Day<%= day %>();
-test("base path points to __dirname", () => expect(day.basePath()).toBe(__dirname));
 
 //////// PART 1
-
 test('example 1', () => {
-    expect(day.part1Example()).toBe("???");
-    return day.readAndReturnEntries(day.testFilePart1()).then(entries => expect(day.part1(entries)).toBe(day.part1Example()));
-  });
-
+  expect(part1.example).toBe("???");
+  const dataFilePath = determineDataFileName(part1, true);
+  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part1(entries)).toBe(part1.example));
+});
 
 //////// PART 2
-
 test('example 2', () => {
-    expect(day.part2Example()).toBe("???");
-    return day.readAndReturnEntries(day.testFilePart2()).then(entries => expect(day.part2(entries)).toBe(day.part2Example()));
-  });
+  expect(part2.example).toBe("???");
+  const dataFilePath = determineDataFileName(part2, true);
+  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part2(entries)).toBe(part2.example));
+});

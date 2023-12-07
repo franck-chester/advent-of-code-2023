@@ -1,8 +1,6 @@
-import { describe, expect, test } from '@jest/globals';
-import { Day07, calculateHandWithoutJokers, parseHand, compareHands, sortHandsInAscendingRankingOrder, symbolStrengthPart1, symbolStrengthPart2, calculateHandWithJokers} from './Day07'
+import { expect, test } from '@jest/globals';
+import { part1, part2, calculateHandWithoutJokers, parseHand, compareHands, sortHandsInAscendingRankingOrder, symbolStrengthPart1, symbolStrengthPart2, calculateHandWithJokers} from './Day07'
 
-const day = new Day07();
-test("base path points to __dirname", () => expect(day.basePath()).toBe(__dirname));
 
 const testEntries = [
   '32T3K 765',
@@ -23,6 +21,7 @@ const typesOfHands = [
 ]
 
 
+//////// PART 1
 const testHandsPart1 = [
   { symbols: '32T3K'.split(''), type: 1, bid: 765 },
   { symbols: 'T55J5'.split(''), type: 3, bid: 684 },
@@ -30,7 +29,7 @@ const testHandsPart1 = [
   { symbols: 'KTJJT'.split(''), type: 2, bid: 220 },
   { symbols: 'QQQJA'.split(''), type: 3, bid: 483 }
 ]
-//////// PART 1
+
 test('part 1 - parseHand(entry: string) : Hand', () => {
   expect(parseHand(testEntries[0], calculateHandWithoutJokers)).toStrictEqual(testHandsPart1[0]);
   expect(parseHand(testEntries[1], calculateHandWithoutJokers)).toStrictEqual(testHandsPart1[1]);
@@ -82,12 +81,16 @@ test('part 1 - sortHandsInAscendingRankingOrder(hands: Hand[])', () =>{
 });
 
 test('example 1', () => {
-  expect(day.part1Example()).toBe("6440");
-  expect(day.part1(testEntries)).toBe("6440");
+  expect(part1.example).toBe("???");
+  const dataFilePath = determineDataFileName(part1, true);
+  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part1(entries)).toBe(part1.example));
 });
-
-
 //////// PART 2
+test('example 2', () => {
+  expect(part2.example).toBe("???");
+  const dataFilePath = determineDataFileName(part2, true);
+  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part2(entries)).toBe(part2.example));
+});
 const testHandsPart2 = [
   { symbols: '32T3K'.split(''), type: 1, bid: 765 },
   { symbols: 'T55J5'.split(''), type: 5, bid: 684 },
@@ -132,7 +135,4 @@ test('part 2 - sortHandsInAscendingRankingOrder(hands: Hand[])', () =>{
   ]);
 });
 
-test('example 2', () => {
-  expect(day.part2Example()).toBe("5905");
-  return day.readAndReturnEntries(day.testFilePart2()).then(entries => expect(day.part2(entries)).toBe(day.part2Example()));
-});
+

@@ -20,8 +20,8 @@ npm i --save-dev @jest/globals
 
 npx ts-jest config:init
 
-ts-node aoc2023.ts 5 1
-ts-node aoc2023.ts 5 1 test
+ts-node aoc2023-fn.ts 7 1 test
+ts-node aoc2023-fn.ts 7 2
 
 npm test -- day00/Day00.test.ts
 ```
@@ -33,7 +33,7 @@ I'm not being particularly smart with TS, but using strong types saves me from p
 I've created [hygen](https://www.hygen.io/docs/quick-start) templates.
 Once hygen is installed (`npm i -g hygen`) adding a new day is as simple as typing:
 
-`hygen day add --day 06`  NB: use a 2 digit day!
+`hygen day add --day 6`
 
 ## Day 1: Trebuchet?!
 
@@ -78,3 +78,11 @@ Not that complicated but then again I am not that smart!
 surprisingly easy - expected part 2 to use numbers too big for the basic method I used for part 1 , but no, it worked.
 part 1 :  Time elapsed : 15 ms
 part 2 :  Time elapsed : 912 ms
+
+## Day 7: Camel Cards
+
+All in all not that hard, just needed a lot of test to get the rules right
+
+Day 07 is also when I refactored away from the Day class and introduced a more functional approach
+
+Using dynamic import I can now introduce new days without modifying the main program (now `aoc2023-fn.ts`)
