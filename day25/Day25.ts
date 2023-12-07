@@ -27,7 +27,7 @@ export function calculateMaxDistanceForHold(hold: number, race: Race): number {
 }
 
 export function calculateOptions(race: Race): number[] {
-    const result = [];
+    const result = [] as number[];
 
     for (let hold = 0; hold < race.time; hold++) {
         const maxDistance = calculateMaxDistanceForHold(hold, race);

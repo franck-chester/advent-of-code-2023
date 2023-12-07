@@ -7,7 +7,7 @@ export async function readEntriesFromDataFile(dataFilePath : string) : Promise<s
         input: fs.createReadStream(dataFilePath),
         crlfDelay: Infinity
     });
-    const processedLines = [];
+    const processedLines = [] as string[];
     for await (const line of rl) {
         console.log(line);
         processedLines.push(line);
