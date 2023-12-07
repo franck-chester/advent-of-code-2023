@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { Day07, calculateHand, parseHand, compareHands, sortHandsInAscendingRankingOrder} from './Day07'
+import { Day07, calculateHandWithoutJokers, parseHand, compareHands, sortHandsInAscendingRankingOrder} from './Day07'
 
 const day = new Day07();
 test("base path points to __dirname", () => expect(day.basePath()).toBe(__dirname));
@@ -32,27 +32,27 @@ const testHands = [
 ]
 //////// PART 1
 test('parseHand(entry: string) : Hand', () => {
-  expect(parseHand(testEntries[0])).toStrictEqual(testHands[0]);
-  expect(parseHand(testEntries[1])).toStrictEqual(testHands[1]);
-  expect(parseHand(testEntries[2])).toStrictEqual(testHands[2]);
-  expect(parseHand(testEntries[3])).toStrictEqual(testHands[3]);
-  expect(parseHand(testEntries[4])).toStrictEqual(testHands[4]);
+  expect(parseHand(testEntries[0], calculateHandWithoutJokers)).toStrictEqual(testHands[0]);
+  expect(parseHand(testEntries[1], calculateHandWithoutJokers)).toStrictEqual(testHands[1]);
+  expect(parseHand(testEntries[2], calculateHandWithoutJokers)).toStrictEqual(testHands[2]);
+  expect(parseHand(testEntries[3], calculateHandWithoutJokers)).toStrictEqual(testHands[3]);
+  expect(parseHand(testEntries[4], calculateHandWithoutJokers)).toStrictEqual(testHands[4]);
 });
 
 test('calculateHand(h: Hand) : number', () => {
-  expect(calculateHand(typesOfHands[0].split(''))).toBe(6);  // Five of a kind
-  expect(calculateHand(typesOfHands[1].split(''))).toBe(5);  // Four of a kind
-  expect(calculateHand(typesOfHands[2].split(''))).toBe(4);  // Full house
-  expect(calculateHand(typesOfHands[3].split(''))).toBe(3);  // Three of a kind
-  expect(calculateHand(typesOfHands[4].split(''))).toBe(2);  // Two pairs
-  expect(calculateHand(typesOfHands[5].split(''))).toBe(1);  // One pair
-  expect(calculateHand(typesOfHands[6].split(''))).toBe(0);  // High Card
+  expect(calculateHandWithoutJokers(typesOfHands[0].split(''))).toBe(6);  // Five of a kind
+  expect(calculateHandWithoutJokers(typesOfHands[1].split(''))).toBe(5);  // Four of a kind
+  expect(calculateHandWithoutJokers(typesOfHands[2].split(''))).toBe(4);  // Full house
+  expect(calculateHandWithoutJokers(typesOfHands[3].split(''))).toBe(3);  // Three of a kind
+  expect(calculateHandWithoutJokers(typesOfHands[4].split(''))).toBe(2);  // Two pairs
+  expect(calculateHandWithoutJokers(typesOfHands[5].split(''))).toBe(1);  // One pair
+  expect(calculateHandWithoutJokers(typesOfHands[6].split(''))).toBe(0);  // High Card
 
-  expect(calculateHand(testHands[0].symbols)).toBe(1);  // 1 pair
-  expect(calculateHand(testHands[1].symbols)).toBe(3);  // 3 of a kind
-  expect(calculateHand(testHands[2].symbols)).toBe(2);  // 2 pairs
-  expect(calculateHand(testHands[3].symbols)).toBe(2);  // 2 pairs
-  expect(calculateHand(testHands[4].symbols)).toBe(3);  // 3 of a kind
+  expect(calculateHandWithoutJokers(testHands[0].symbols)).toBe(1);  // 1 pair
+  expect(calculateHandWithoutJokers(testHands[1].symbols)).toBe(3);  // 3 of a kind
+  expect(calculateHandWithoutJokers(testHands[2].symbols)).toBe(2);  // 2 pairs
+  expect(calculateHandWithoutJokers(testHands[3].symbols)).toBe(2);  // 2 pairs
+  expect(calculateHandWithoutJokers(testHands[4].symbols)).toBe(3);  // 3 of a kind
 });
 
 test('compareHands(a: Hand, b: Hand): number', () =>{

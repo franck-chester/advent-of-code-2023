@@ -9,17 +9,17 @@ interface Hand {
     bid: number;
 }
 
-export function parseHand(entry: string): Hand {
+export function parseHand(entry: string, calculateHand : (symbols: string[]) => number): Hand {
     const parts = entry.split(' ');
     const symbols = parts[0].split('');
     return {
         symbols,
-        type: calculateHand(symbols),
+        type: calculateHandWithoutJokers(symbols),
         bid: parseInt(parts[1])
     };
 }
 // return 0 for high card to 6 for 5 of a kind
-export function calculateHand(symbols: string[]): number {
+export function calculateHandWithoutJokers(symbols: string[]): number {
     const counts = [] as number[];
     const symbolsSet = new Set(symbols);
     symbolsSet.forEach(s1 => counts.push(symbols.filter((s2) => s2 == s1).length));
@@ -65,11 +65,7 @@ export class Day07 extends Day {
             console.log(`entry = ${entries[i]}`);
             const entry = entries[i].split(' ');
             const symbols = entry[0].split('');
-            hands.push({
-                symbols,
-                type: calculateHand(symbols),
-                bid: parseInt(entry[1])
-            });
+            hands.push(parseHand(entries[i], calculateHandWithoutJokers));
         }
         sortHandsInAscendingRankingOrder(hands);
         hands.forEach((h, i) => solution += (i+1) * h.bid);
