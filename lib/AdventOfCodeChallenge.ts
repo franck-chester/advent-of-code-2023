@@ -24,6 +24,7 @@ export type AdventOfCodeChallenge = {
 };
 
 export function determineDataFileName(adventOfCodeChallenge: AdventOfCodeChallenge, isTest : boolean) {
+    console.log(`determineDataFileName : ${JSON.stringify(adventOfCodeChallenge, null, 1)}`);
     const dataFileName = adventOfCodeChallenge[isTest ? 'testFile' : 'inputFile'];
     const dataFilePath = path.resolve(__dirname, `../${adventOfCodeChallenge.day}/${dataFileName}`);
     return dataFilePath;

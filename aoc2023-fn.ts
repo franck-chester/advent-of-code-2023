@@ -10,7 +10,7 @@ const dayId = parseInt(process.argv[2]);
 const dayName = String(dayId).padStart(2, '0');
 
 const partId = parseInt(process.argv[3]);
-export const isTest = (process.argv.length == 4 && 'test' == process.argv[3]?.toLowerCase())
+const isTest = (process.argv.length == 5 && 'test' == process.argv[4]?.toLowerCase());
 
 if (dayId < 7) {
     console.log(`Invalid day '${dayName}' This refactored aoc2022.ts only works with days 07 and onwards `);
