@@ -86,3 +86,18 @@ All in all not that hard, just needed a lot of test to get the rules right
 Day 07 is also when I refactored away from the Day class and introduced a more functional approach
 
 Using dynamic import I can now introduce new days without modifying the main program (now `aoc2023-fn.ts`)
+
+## Day 8: Haunted Wasteland
+
+Part 1 is super easy
+
+Part 2 is too computationaly intensive to brute force.
+Took me a while to get my head around it, but started, for each location, tracking the instruction offset that let to an end location.
+The idea was that whenever I fell on that instruction again I could shortcut the next round of processing.
+Unfortunately that still ran like a hog.
+It also looked like I had a bug as the same instruction was always the one logged - the last one.
+Looked around twitter and saw someone mention a hidden pattern in the data.
+Decided the pattern was that I should only count whole sets of instructions, and only worry about the minimum one for each location.
+We then have a classic problem: how many cycles to go in total to land on a winning cycle for all locations, which is the least common multiple : the smallest number that is dividable by all.
+
+Quick google to remind myself how to calculate the [Least Common Multiple](https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor), which requires calculating the [Greatest Common Divisor](https://en.wikipedia.org/wiki/Greatest_common_divisor#Euclidean_algorithm) and I eventually got there.

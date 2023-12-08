@@ -44,8 +44,8 @@ function part1Implementation(entries: string[]) {
 /////////////////////////////
 function part2Implementation(entries: string[]) {
     let stepsSoFar = 0
-    let steps = entries[0].split('').map(s => s == 'R'?1:0);
-    const mod = steps.length
+    let instructions = entries[0].split('').map(s => s == 'R'?1:0);
+    const numberOfInstructions = instructions.length
 
     const map = new Map<string,string[]>();
     const m = /(?<start>.*) = \((?<left>.*), (?<right>.*)\)/
@@ -55,26 +55,37 @@ function part2Implementation(entries: string[]) {
     }
 
     let locations = Array.from(map.keys()).filter(k => k.endsWith('A'));
-    const reached = [] as number[];
+
+    const repeatedTheWholeInstructions = [] as number[];
+    // there's a pattern to the data : each end destination is always reached after following a whole number of instruction sets
+    // this eliminate the need to track partial sets of instructions, which would still break my laptop
+    // as we're always running in whole set of instructions, we just need to count these
     // lets run until we've successfully cycled to a winning location at least once for all locations
-    while(reached.length < locations.length){ 
-        const direction = steps[stepsSoFar % mod];
+    while(repeatedTheWholeInstructions.length < locations.length){ 
+        const instruction = stepsSoFar % numberOfInstructions;
+        const direction = instructions[instruction];
         stepsSoFar ++;
+        const repeat = stepsSoFar/numberOfInstructions;
         for(let l = 0; l<locations.length; l++){ // for each current location
             const newLocation = map.get(locations[l])![direction];
-            locations[l] = newLocation;
+            
             if(newLocation.endsWith('Z')        // reached an end location
-            && !reached.includes(stepsSoFar)){  // in a number of step never taken before
-                reached.push(stepsSoFar)
+            && !repeatedTheWholeInstructions.includes(repeat)){  // in a number of step never taken before
+                repeatedTheWholeInstructions.push(repeat)
+                console.log(`${stepsSoFar} (${instruction}/${numberOfInstructions}) = ${repeat}th repeat : ${locations[l]} ==[${direction == 0 ? 'L' : 'R'}]==> ${newLocation}`)
             }
+            locations[l] = newLocation;
                 
         }
-        if(stepsSoFar % 100 == 0) console.log(`${stepsSoFar} : Number of steps required to reach an end location: ${JSON.stringify(reached)}`)
+        if(stepsSoFar % 100 == 0){
+            console.log(`${stepsSoFar} : Number of full set of instructions required : ${JSON.stringify(repeatedTheWholeInstructions)}`)
+        }
     }
     // these are overlapping cycles, is there a common frequency, i.e.a least common multiple?
-    console.log(`Number of steps required to reach an end location: ${JSON.stringify(reached)}`)
-    const solution = reached.reduce((a,b) => leastCommonMultiple(a,b));
+    console.log(`Number of instruction cycles required for each location: ${JSON.stringify(repeatedTheWholeInstructions)}`)
+    const solution = numberOfInstructions * repeatedTheWholeInstructions.reduce((a,b) => leastCommonMultiple(a,b));
     console.log(`minimum number of step to cycle through all: ${solution}`)
+
     return `${solution}`;
 }
 // https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor
