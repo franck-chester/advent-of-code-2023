@@ -97,7 +97,72 @@ The idea was that whenever I fell on that instruction again I could shortcut the
 Unfortunately that still ran like a hog.
 It also looked like I had a bug as the same instruction was always the one logged - the last one.
 Looked around twitter and saw someone mention a hidden pattern in the data.
-Decided the pattern was that I should only count whole sets of instructions, and only worry about the minimum one for each location.
+
+Refactored my first working solution to make it clearer
+that it all depends on the pattern hidden in the data, namely:
+The data is cyclic : A =[c]=> Z =[c]=> Z =[c]=> Z
+Which means the solution if the least common multiple of the cycles for each starting position
+Otherwise the solution would NOT work!!
+
 We then have a classic problem: how many cycles to go in total to land on a winning cycle for all locations, which is the least common multiple : the smallest number that is dividable by all.
 
 Quick google to remind myself how to calculate the [Least Common Multiple](https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor), which requires calculating the [Greatest Common Divisor](https://en.wikipedia.org/wiki/Greatest_common_divisor#Euclidean_algorithm) and I eventually got there.
+
+```
+Day08 - ACTUAL INPUT 740 LINES PROCESSED
+start location [0] : {"location":"GSA","lr":["THS","NKH"],"isStart":true,"isEnd":false,"stepsToNext":19631,"next":"DXZ"}
+ 19631/293 = 67 ,  19631 mod 293 = 0
+start location [1] : {"location":"DLA","lr":["PHM","VQS"],"isStart":true,"isEnd":false,"stepsToNext":17287,"next":"XJZ"}   
+ 17287/293 = 59 ,  17287 mod 293 = 0
+start location [2] : {"location":"MLA","lr":["PTH","JCK"],"isStart":true,"isEnd":false,"stepsToNext":12599,"next":"PXZ"}   
+ 12599/293 = 43 ,  12599 mod 293 = 0
+start location [3] : {"location":"MQA","lr":["HTF","TKM"],"isStart":true,"isEnd":false,"stepsToNext":23147,"next":"QLZ"}   
+ 23147/293 = 79 ,  23147 mod 293 = 0
+start location [4] : {"location":"AAA","lr":["SQV","VLV"],"isStart":true,"isEnd":false,"stepsToNext":13771,"next":"ZZZ"}   
+ 13771/293 = 47 ,  13771 mod 293 = 0
+start location [5] : {"location":"JGA","lr":["PBD","NQT"],"isStart":true,"isEnd":false,"stepsToNext":20803,"next":"TFZ"}   
+ 20803/293 = 71 ,  20803 mod 293 = 0
+end location [0] : {"location":"DXZ","lr":["NKH","THS"],"isStart":false,"isEnd":true,"stepsToNext":19631,"next":"DXZ"}
+ 19631/293 = 67 ,  19631 mod 293 = 0
+end location [1] : {"location":"XJZ","lr":["VQS","PHM"],"isStart":false,"isEnd":true,"stepsToNext":17287,"next":"XJZ"}     
+ 17287/293 = 59 ,  17287 mod 293 = 0
+end location [2] : {"location":"PXZ","lr":["JCK","PTH"],"isStart":false,"isEnd":true,"stepsToNext":12599,"next":"PXZ"}     
+ 12599/293 = 43 ,  12599 mod 293 = 0
+end location [3] : {"location":"QLZ","lr":["TKM","HTF"],"isStart":false,"isEnd":true,"stepsToNext":23147,"next":"QLZ"}     
+ 23147/293 = 79 ,  23147 mod 293 = 0
+end location [4] : {"location":"ZZZ","lr":["VLV","SQV"],"isStart":false,"isEnd":true,"stepsToNext":13771,"next":"ZZZ"}     
+ 13771/293 = 47 ,  13771 mod 293 = 0
+end location [5] : {"location":"TFZ","lr":["NQT","PBD"],"isStart":false,"isEnd":true,"stepsToNext":20803,"next":"TFZ"}
+ 20803/293 = 71 ,  20803 mod 293 = 0
+end location [0] : {"location":"DXZ","lr":["NKH","THS"],"isStart":false,"isEnd":true,"stepsToNext":19631,"next":"DXZ"}     
+ 19631/293 = 67 ,  19631 mod 293 = 0
+end location [1] : {"location":"XJZ","lr":["VQS","PHM"],"isStart":false,"isEnd":true,"stepsToNext":17287,"next":"XJZ"}     
+ 17287/293 = 59 ,  17287 mod 293 = 0
+end location [2] : {"location":"PXZ","lr":["JCK","PTH"],"isStart":false,"isEnd":true,"stepsToNext":12599,"next":"PXZ"}     
+ 12599/293 = 43 ,  12599 mod 293 = 0
+end location [3] : {"location":"QLZ","lr":["TKM","HTF"],"isStart":false,"isEnd":true,"stepsToNext":23147,"next":"QLZ"}     
+ 23147/293 = 79 ,  23147 mod 293 = 0
+end location [4] : {"location":"ZZZ","lr":["VLV","SQV"],"isStart":false,"isEnd":true,"stepsToNext":13771,"next":"ZZZ"}     
+ 13771/293 = 47 ,  13771 mod 293 = 0
+end location [5] : {"location":"TFZ","lr":["NQT","PBD"],"isStart":false,"isEnd":true,"stepsToNext":20803,"next":"TFZ"}     
+ 20803/293 = 71 ,  20803 mod 293 = 0
+have we gone back to start (Z->A)? false,false,false,false,false,false
+have we gone back to full circle to the same end point (Z->Z)?? true,true,true,true,true,true
+and did it take as many steps from A->Z than Z -> Z ?? true,true,true,true,true,true
+and was it always a number of full cycle through the instructions ?? true,true,true,true,true,true
+
+
+The legend is right, all start positions cycle back to an end position at a fixed frequency :
+19631,17287,12599,23147,13771,20803
+GSA =[19631 steps] => DXZ
+DLA =[17287 steps] => XJZ
+MLA =[12599 steps] => PXZ
+MQA =[23147 steps] => QLZ
+AAA =[13771 steps] => ZZZ
+JGA =[20803 steps] => TFZ
+
+
+ --------------------------------------------------------------------------------
+ SOLUTION  Day 08 part 2 : calculated 13129439557681
+ Time elapsed : 205 ms
+```
