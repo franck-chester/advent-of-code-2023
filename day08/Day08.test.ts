@@ -1,10 +1,6 @@
----
-to: day<%= ('0'+day).slice(-4) %>/Day<%= ('0'+day).slice(-4) %>.test.ts
-unless_exists: true
----
 import { expect, test } from '@jest/globals';
+import { part1, part2} from './Day08'
 import { determineDataFileName, readEntriesFromDataFile } from '../lib/AdventOfCodeChallenge';
-import { part1, part2} from './Day<%= ("0"+day).slice(-4) %>'
 
 
 //////// PART 1
