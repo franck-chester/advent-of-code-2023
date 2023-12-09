@@ -24,7 +24,7 @@ function part1Implementation(entries: string[]) {
         let values = [entries[i].split(' ').map(e => parseInt(e))];
 
         let j = 0;
-        while (values[j].filter(v => v != 0).length > 0) {
+        while (values[j].some(v => v != 0)) {
             console.log(values[j].join(' '));
             values.push([]);
             for (let k = 1; k < values[j].length; k++) {
@@ -57,7 +57,7 @@ function part2Implementation(entries: string[]) {
         let values = [entries[i].split(' ').map(e => parseInt(e))];
 
         let j = 0;
-        while (values[j].filter(v => v != 0).length > 0) {
+        while (values[j].some(v => v != 0)) {
             console.log(`${j} : ${values[j].join(' ')}`);
             values.push([]);
             for (let k = 1; k < values[j].length; k++) {
