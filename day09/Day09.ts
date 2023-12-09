@@ -38,19 +38,43 @@ function part1Implementation(entries: string[]) {
         console.log(values[j].join(' '));
         for (j--; j >= 0; j--) {
             console.log(values[j].join(' '));
-            let k = values[j].length -1
+            let k = values[j].length - 1
             values[j].push(values[j + 1].pop()! + values[j][k]);
         }
         console.log(values[0].join(' '));
-        solution+=values[0].pop()!;
-}
-return `${solution}`;
+        solution += values[0].pop()!;
+    }
+    return `${solution}`;
 }
 
 /////////////////////////////
 // ACTUAL CODE - Part TWO  //
 /////////////////////////////
 function part2Implementation(entries: string[]) {
-    let solution = '???'
+    let solution = 0;
+    for (let i = 0; i < entries.length; i++) {
+        console.log(`-- [${i}] -----------------------`)
+        let values = [entries[i].split(' ').map(e => parseInt(e))];
+
+        let j = 0;
+        while (values[j].filter(v => v != 0).length > 0) {
+            console.log(`${j} : ${values[j].join(' ')}`);
+            values.push([]);
+            for (let k = 1; k < values[j].length; k++) {
+                values[j + 1].push(values[j][k] - values[j][k - 1])
+            }
+            j++;
+        }
+        console.log(`${j} : ${values[j].join(' ')}`);
+        values[j].unshift(0);
+        console.log(`  ===`);
+        console.log(`${j} : ${values[j].join(' ')}`);
+        for (j--; j >= 0; j--) {
+            let x = (values[j][0]) - (values[j + 1][0]);
+            values[j].unshift(x);
+            console.log(`${j} : ${values[j].join(' ')} => ${x} = ${values[j][1]} - ${values[j + 1][0]}`);
+        }
+        solution += values[0][0]!;
+    }
     return `${solution}`;
 }

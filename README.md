@@ -166,3 +166,7 @@ JGA =[20803 steps] => TFZ
  SOLUTION  Day 08 part 2 : calculated 13129439557681
  Time elapsed : 205 ms
 ```
+
+## Day 9: Mirage Maintenance
+
+An easy one today - shame as it's Saturday and I had time to do a hard one
