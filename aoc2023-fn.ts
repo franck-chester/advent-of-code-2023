@@ -10,7 +10,8 @@ const dayId = parseInt(process.argv[2]);
 const dayName = String(dayId).padStart(2, '0');
 
 const partId = parseInt(process.argv[3]);
-const isTest = (process.argv.length == 5 && 'test' == process.argv[4]?.toLowerCase());
+const isTest = (process.argv.length > 4  && 'test' == process.argv[4]?.toLowerCase());
+const testNumber = process.argv.length > 5 ?  parseInt(process.argv[5]?.toLowerCase()) : 0;
 
 if (dayId < 7) {
     console.log(`Invalid day '${dayName}' This refactored aoc2022.ts only works with days 07 and onwards `);
@@ -25,7 +26,7 @@ if (!(partId == 1 || partId == 2)) {
 const modulePath = `./day${dayName}/Day${dayName}`;
 import(modulePath).then(dayModule => {
     const adventOfCodeChallenge = dayModule[`part${partId}`];
-    const dataFilePath = determineDataFileName(adventOfCodeChallenge, isTest);
+    const dataFilePath = determineDataFileName(adventOfCodeChallenge, isTest, testNumber);
 
     const startTime = performance.now();
     console.log(`Day${dayName} - reading from ${dataFilePath}...`);

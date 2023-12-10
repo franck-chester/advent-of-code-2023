@@ -18,13 +18,18 @@ export async function readEntriesFromDataFile(dataFilePath : string) : Promise<s
 export type AdventOfCodeChallenge = {
     (entries: string[]): string;
     day: string;
-    testFile: string;
+    testFile: string | string[];
     example: string;
     inputFile: string;
 };
 
-export function determineDataFileName(adventOfCodeChallenge: AdventOfCodeChallenge, isTest : boolean) {
-    console.log(`determineDataFileName : ${JSON.stringify(adventOfCodeChallenge, null, 1)}`);
+export function determineDataFileName(adventOfCodeChallenge: AdventOfCodeChallenge, isTest : boolean, testNumber: number) {
+    console.log(`determineDataFileName (isTest = ${isTest})...`);
+    if(testNumber > 0 ){
+        const dataFileNames = adventOfCodeChallenge[isTest ? 'testFile' : 'inputFile'];
+        console.log(`picking test ${testNumber} (index ${testNumber-1} in ${dataFileNames} = ${dataFileNames[testNumber-1]}`)
+        return path.resolve(__dirname, `../${adventOfCodeChallenge.day}/${dataFileNames[testNumber-1]}`);
+    }
     const dataFileName = adventOfCodeChallenge[isTest ? 'testFile' : 'inputFile'];
     const dataFilePath = path.resolve(__dirname, `../${adventOfCodeChallenge.day}/${dataFileName}`);
     return dataFilePath;

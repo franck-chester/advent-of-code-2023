@@ -2,7 +2,7 @@
 export class Grid<T> {
   maxX: number;
   maxY: number;
-  cells: T[][];
+  cells: (T|undefined)[][];
 
   constructor(width: number, height: number) {
     this.cells = [] as T[][]
@@ -11,7 +11,7 @@ export class Grid<T> {
     for (let x = 0; x <= this.maxX; x++) {
       this.cells.push([]);
       for (let y = 0; y <= this.maxY; y++) {
-        this.cells[x].push(null as T);
+        this.cells[x].push(undefined as T);
       }
     }
   }
@@ -26,7 +26,7 @@ export class Grid<T> {
     return grid;
   }
 
-  getCell(x: number, y: number): T {
+  getCell(x: number, y: number): T|undefined {
     return this.cells[x][y];
   }
 
@@ -50,6 +50,15 @@ export class Grid<T> {
       grid.cells[x] = this.cells[x].slice(Y - yOffset, Y + yOffset+1);
     }
     return grid;
+  }
+
+  logToConsole(emptyCell : string){
+    console.log(`--- ${this.maxX} X ${this.maxY} Grid -----`)
+    for(let y = 0; y<= this.maxY; y++){
+      const Xs = this.cells.map((c,x) => `${c[y]??emptyCell}`).join('|');
+      console.log(('0'+y).slice(-4) + ' : ' + Xs);
+    }
+    console.log(`--- ---------------------`)
   }
 }
 

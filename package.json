@@ -8,6 +8,6 @@
     "typescript": "^4.9.3"
   },
   "scripts": {
-    "test": "jest --watch"
+    "test": "ts-node aoc2023-fn.ts 10 1 test"
   }
 }
