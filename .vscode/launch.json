@@ -27,20 +27,21 @@
         },
         {
             "type": "node",
-            "name": "ts-node aoc2023-fn.ts 10 1 test",
+            "name": "ts-node aoc2023-fn.ts 10 2",
             "request": "launch",
             "runtimeArgs": [
+                "--stack_size=8000",
                 "-r",
                 "ts-node/register"
             ],
             "args": [
                 "${workspaceFolder}/aoc2023-fn.ts",
                 "10",
-                "1",
-                "test"
+                "2",
+                ""
             ],
             "localRoot": "C:/_workspaces/advent-of-code-2023",
-            "cwd": "${workspaceFolder}",
+            "cwd": "C:/_workspaces/advent-of-code-2023",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
         }

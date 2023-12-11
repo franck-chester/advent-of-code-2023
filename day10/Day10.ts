@@ -172,9 +172,14 @@ function validNeighbours(pipe: string): { left: string[], right: string[], top: 
 function part2Implementation(entries: string[]) {
     const maSteps = 6951; // part 1 solution
     const pipes = Grid.fromEntries<string>(entries, (s) => s);
+    // insert a blank edged on the left hand side to simplify ray tracing
+    pipes.insertColumnAt(0, '.');
+
+
     pipes.logToConsole((c) => c !== undefined ? c : '.');
     console.log('----------------------------')
     const visited = new Grid<boolean>(pipes.maxX + 1, pipes.maxY + 1);
+
     // find the start
     let x = 0;
     let y = 0;
@@ -199,57 +204,45 @@ function part2Implementation(entries: string[]) {
         for (let Y = 0; Y <= pipes.maxY; Y++) {
             let v = visited.cells[X][Y];
             if (v !== undefined && v == true) continue; // its a pipe, neither in or out
-            // cast a ray to the right and count how mny vertical part of the path we cross
+            // cast a ray from the left handside edge (which we inserted so know is outside)
+            //  up to this cell
             // ignore horizontal sections of pipe:
-            //  if Im in and hit a F or L, I remain in until I hit a 7 or a J
-            let countH = 0;
+            //  if I hit a vertical pipe in -> out and out -> in
+            //  if I hit a U bend I remain in or out
+            //  If I hit a Z bend in -> out and out -> in
+            let out = true;
             let sectionStartedWithF = false;
             let sectionStartedWithL = false
-            for (let x = X + 1; x <= pipes.maxX; x++) {
+            for (let x = 0; x <= X; x++) {
                 v = visited.cells[x][Y];
                 if (v !== undefined && v == true) {// its a pipe 
                     let p = pipes.cells[x][Y]!;
 
                     if ('|' == p) {
-                        countH += 1;
+                        out = !out;
                     }
                     if ('F' == p) sectionStartedWithF = true;
                     if ('L' == p) sectionStartedWithL = true;
                     if ('J' == p) {
                         if (sectionStartedWithL) {
-                            // U corner (┖┚) counts as 2
-                            countH += 2;
+                            // U bend (┖┚) 
                             sectionStartedWithL = false;
                         }
                         if (sectionStartedWithF) {
-                            // zig zag corner (┍┚) counts as 1
-                            countH += 1;
+                            // Z bend (┍┚) counts 
+                            out = !out;
                             sectionStartedWithF = false;
                         }
                     }
 
                     if ('7' == p) {
                         if (sectionStartedWithF) {
-                            if (x < pipes.maxX) {
-                                // U corner (┍┑) counts as 2
-                                countH += 2;
-
-                            }
-                            // else {
-                            //     countH += -1;
-                            // }
+                            // U bend (┍┑) 
                             sectionStartedWithF = false;
                         }
                         if (sectionStartedWithL) {
-                            if (x < pipes.maxX) {
-                                // zig zag corner (┖┒) counts as 1
-                                countH += 1;
-
-                            }
-                            // else {
-                            //     countH += 2;
-                            // }
-
+                            // Z bend (┖┒) 
+                            out = !out;
                             sectionStartedWithL = false;
                         }
                     }
@@ -257,8 +250,8 @@ function part2Implementation(entries: string[]) {
             }
 
 
-            pipes.setCell(X, Y, (countH % 2) == 0 ? 'O' : 'I');
-            insideCount += (countH % 2) == 0 ? 0 : 1;
+            pipes.setCell(X, Y, out ? 'O' : 'I');
+            insideCount += out ? 0 : 1;
         }
     }
     pipes.logToConsole((c) => c !== undefined ? c : '.');
@@ -268,7 +261,7 @@ function part2Implementation(entries: string[]) {
 }
 
 export function followNearestPipes2(pipes: Grid<string>, visited: Grid<boolean>, X: number, Y: number, path: { x: number, y: number }[]) {
-    //console.log(`followNearestPipes2(X: ${X}, Y: ${Y}, )...`)
+    console.log(`followNearestPipes2(X: ${X}, Y: ${Y}, )...`)
     visited.setCell(X, Y, true);
 
     const centrePipe = pipes.cells[X][Y]!;
@@ -288,12 +281,13 @@ export function followNearestPipes2(pipes: Grid<string>, visited: Grid<boolean>,
     if ('S' == centrePipe) {
         // translate it to save us hassle when ray tracing
         if (canGoLeft && canGoRight) pipes.setCell(X, Y, '-');
+        if (canGoTop && canGoBottom) pipes.setCell(X, Y, '|');
         //  |
-        if (canGoLeft && canGoTop) pipes.setCell(X, Y, 'J');      // -S = ┙
-        if (canGoLeft && canGoBottom) pipes.setCell(X, Y, '7');   // -S = ┒
+        if (canGoLeft && canGoTop) pipes.setCell(X, Y, 'J');        // -S = ┙
+        if (canGoLeft && canGoBottom) pipes.setCell(X, Y, '7');     // -S = ┒
         //  |
-        if (canGoRight && canGoTop) pipes.setCell(X, Y, 'L');     //  S-= ┗
-        if (canGoRight && canGoBottom) pipes.setCell(X, Y, 'F');  //  S-= ┍
+        if (canGoRight && canGoTop) pipes.setCell(X, Y, 'L');       //  S-= ┗
+        if (canGoRight && canGoBottom) pipes.setCell(X, Y, 'F');    //  S-= ┍
         //  | 
     }
 
