@@ -35,16 +35,16 @@ Once hygen is installed (`npm i -g hygen`) adding a new day is as simple as typi
 
 `hygen day add --day 6`
 
-## Day 1: Trebuchet?!
+## ⭐⭐ Day 1: Trebuchet?!
 
 Shouldn't have taken this long but I really struggled setting up my test suite, and I really wanted a test suite.
 First go at part 2 was running regex.exec in a simple loop, but because of edge cases where number words are blended, like `twone` this wasn't working, so switched to matching backward
 
-## Day 2: Cube Conundrum
+## ⭐⭐ Day 2: Cube Conundrum
 
 misread part 1, was not looking at individual sets, was adding it all up, then faffed with tests again, still cramming too much into each piece of code
 
-## Day 3: Gear Ratios
+## ⭐⭐ Day 3: Gear Ratios
 - I'm very bad at this. Still struggling with my toolset, typsecript, jest, etc
 - I also made the mistake to assume part 2 was going to be about vertical or even diagonal numbers so geared (pun intended) my code for that, proper YAGNI
 
@@ -54,13 +54,13 @@ So now, on my todo list are:
 
 Also I have too many class members that ought to be functions. In fact, this might be an occasion tonuse functional programming and monads... or not (again, head space) 
 
-## Day 4: Scratchcards
+## ⭐⭐ Day 4: Scratchcards
 
 Not a particularly difficult one, I'm just very slow.
 
 Got stupidly caught by the extra padding spaces between the numbers in part 1
 
-## Day 5: If You Give A Seed A Fertilizer
+## ⭐⭐ Day 5: If You Give A Seed A Fertilizer
 
 Part 1 was a lot of parsing but not too hard
 
@@ -73,13 +73,13 @@ had to combine them in a single array of source+destination.
 
 Not that complicated but then again I am not that smart!
 
-## Day 6: Wait For It
+## ⭐⭐ Day 6: Wait For It
 
 surprisingly easy - expected part 2 to use numbers too big for the basic method I used for part 1 , but no, it worked.
 part 1 :  Time elapsed : 15 ms
 part 2 :  Time elapsed : 912 ms
 
-## Day 7: Camel Cards
+## ⭐⭐ Day 7: Camel Cards
 
 All in all not that hard, just needed a lot of test to get the rules right
 
@@ -87,7 +87,7 @@ Day 07 is also when I refactored away from the Day class and introduced a more f
 
 Using dynamic import I can now introduce new days without modifying the main program (now `aoc2023-fn.ts`)
 
-## Day 8: Haunted Wasteland
+## ⭐⭐ Day 8: Haunted Wasteland
 
 Part 1 is super easy
 
@@ -167,17 +167,26 @@ JGA =[20803 steps] => TFZ
  Time elapsed : 205 ms
 ```
 
-## Day 9: Mirage Maintenance
+## ⭐⭐ Day 9: Mirage Maintenance
 
 An easy one today - shame as it's Saturday and I had time to do a hard one
 
-## Day 10: Pipe Maze
+## ⭐⭐ Day 10: Pipe Maze
 
 Part 1 wouldn't have been too hard if my Grid class had been ready.
 I also coded it as if paths could cross, instead of looking a for the single path and calculating its length.
 Definitely needs refactoring
 
-Part 2 : I cam close but actually failed.
+Also, solution would fail with a call stack exception (`RangeError: Maximum call stack size exceeded`) and I had to set node with a bigger stack (`--stack_size=8000`):
+```
+node  --stack_size=8000 -r ts-node/register  aoc2023-fn.ts 10 2
+```
+
+The `8000` is completely arbitrary, increased the value until I got rid of the exception.
+
+I need to read [this article about recursion in js](https://stackforgeeks.com/blog/nodejs-tailcall-optimization-possible-or-not#unraveling-javascript-recursion-optimization-ptc-tco-and-the-ongoing-debate)
+
+Part 2 : I came close but actually failed.
 But my first 2 attempts were close enough, 9 apart, one too high, the other too low, I ended up triangulating manually (shame on me!!)
 I can see in my logs the rows (`059` and `104`) I am getting wrong as it shows Is on the outside left edge which is obviously outside.
 
@@ -324,3 +333,9 @@ I can see in my logs the rows (`059` and `104`) I am getting wrong as it shows I
 0139 : OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOLJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 --- ---------------------
 ```
+## Day 11: Cosmic Expansion
+
+Part 1 was relatively easy, especially with my new `Grid` class, but runs slow so I'm probably missing an obvious optimisation
+
+Part 2 should have been much easier, but I wasted time expanding by 10, 100, etc, instead of 9, 99, etc...
+Also runs like a hog.

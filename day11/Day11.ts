@@ -104,7 +104,7 @@ function part2Implementation(entries: string[]) {
             }
         }
     }
-
+    console.log(`Pairing...`);
     const galaxyPairs = [] as { g1: { x: number, y: number }, g2: { x: number, y: number } }[];
     const galaxyPairNames = [] as string[];
    
@@ -118,7 +118,7 @@ function part2Implementation(entries: string[]) {
     console.log(`Found ${galaxyPairs.length} pairs of galaxies:`);
     const galaxyPairMinimumDistances = galaxyPairs.map(p => Math.abs(p.g2.x - p.g1.x) + Math.abs(p.g2.y - p.g1.y));
 
-    galaxyPairNames.forEach((p,i) => console.log(`${('0' + i).slice(-4)} : ${p} : ${galaxyPairMinimumDistances[i]}`))
+    //galaxyPairNames.forEach((p,i) => console.log(`${('0' + i).slice(-4)} : ${p} : ${galaxyPairMinimumDistances[i]}`))
     //console.log(`Distances : ${galaxyPairMinimumDistances}`);
     let solution = galaxyPairMinimumDistances.reduce((a, b) => a + b);
     console.log(`${galaxyPairs.length} pairs add to ${solution}`)
