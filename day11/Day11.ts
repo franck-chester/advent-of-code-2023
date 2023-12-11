@@ -1,0 +1,76 @@
+///////////////////
+// BOILER PLATE  //
+
+import { Grid } from "../lib/Grid";
+
+///////////////////
+const day = "Day11";
+export function part1(entries: string[]): string { return part1Implementation(entries); };
+part1.day = day;
+part1.testFile = 'test.txt';
+part1.example = '???';
+part1.inputFile = 'input.txt';
+
+export function part2(entries: string[]): string { return part2Implementation(entries); };
+part2.day = day;
+part2.testFile = 'test.txt';
+part2.example = '???';
+part2.inputFile = 'input.txt';
+
+/////////////////////////////
+// ACTUAL CODE - Part ONE  //
+/////////////////////////////
+function part1Implementation(entries: string[]) {
+    const universe = Grid.fromEntries<string>(entries, (s) => s);
+
+    universe.logToConsole(c => c!);
+
+    // expansion
+    let emptyCols = [] as number[];
+    let emptyRows = [] as number[];
+    for (let x = universe.maxX; x >= 0; x--) {
+        if (!universe.getCol(x).includes('#')) emptyCols.push(x);
+    }
+    for (let y = universe.maxY; y >= 0; y--) {
+        if (!universe.getRow(y).includes('#')) emptyRows.push(y);
+    }
+    console.log(`empty rows : ${emptyRows}, empty cols : ${emptyCols}, galaxy after expansion =`);
+
+    emptyCols.forEach(x => universe.insertColumnAt(x, '.'));
+    emptyRows.forEach(y => universe.insertRowAt(y, '.'));
+    universe.logToConsole(c => c!);
+
+    // get the galaxy coordinates
+    const galaxies = [] as { x: number, y: number }[]
+    for (let x = 0; x <= universe.maxX; x++) {
+        for (let y = 0; y <= universe.maxY; y++) {
+            if (universe.cells[x][y] == '#') galaxies.push({ x, y });
+        }
+    }
+
+    const galaxyPairs = [] as { g1: { x: number, y: number }, g2: { x: number, y: number } }[];
+    const galaxyPairNames = [] as string[];
+    galaxies.forEach(g1 => galaxies.forEach(g2 => {
+        if ((g2 != g1) && !(galaxyPairNames.includes(`(${g2.x},${g2.y})(${g1.x},${g1.y})`))) {
+            galaxyPairs.push({ g1, g2 });
+            galaxyPairNames.push(`(${g1.x},${g1.y})(${g2.x},${g2.y})`);
+        }
+    }));
+
+    console.log(`Found ${galaxyPairs.length} pairs of galaxies:`);
+    const galaxyPairMinimumDistances = galaxyPairs.map(p => Math.abs(p.g2.x - p.g1.x)+Math.abs(p.g2.y - p.g1.y));
+
+    //galaxyPairNames.forEach((p,i) => console.log(`${('0' + i).slice(-4)} : ${p} : ${galaxyPairMinimumDistances[i]}`))
+    console.log(`Distances : ${galaxyPairMinimumDistances}`);
+    let solution = galaxyPairMinimumDistances.reduce((a,b)=> a+b);
+    console.log(`${galaxyPairs.length} pairs add to ${solution}`)
+    return `${solution}`;
+}
+
+/////////////////////////////
+// ACTUAL CODE - Part TWO  //
+/////////////////////////////
+function part2Implementation(entries: string[]) {
+    let solution = '???'
+    return `${solution}`;
+}

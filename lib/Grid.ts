@@ -1,13 +1,21 @@
 
 export class Grid<T> {
-  maxX: number;
-  maxY: number;
-  cells: (T|undefined)[][];
+  width: number;
+  height: number;
+  cells: (T | undefined)[][];
+
+  get maxX() {
+    return this.width - 1;
+  }
+  get maxY() {
+    return this.height - 1;
+  }
 
   constructor(width: number, height: number) {
     this.cells = [] as T[][]
-    this.maxX = width - 1;
-    this.maxY = height - 1;
+    this.width = width;
+    this.height = height;
+
     for (let x = 0; x <= this.maxX; x++) {
       this.cells.push([]);
       for (let y = 0; y <= this.maxY; y++) {
@@ -26,12 +34,30 @@ export class Grid<T> {
     return grid;
   }
 
-  getCell(x: number, y: number): T|undefined {
+  getCell(x: number, y: number): T | undefined {
     return this.cells[x][y];
   }
 
   setCell(x: number, y: number, c: T) {
     this.cells[x][y] = c;
+  }
+
+  getCol(x: number): (T | undefined)[] {
+    return this.cells[x]
+  }
+
+  insertColumnAt(x: number, defaultItem: T): void {
+    this.cells.splice(x, 0, Array(this.width).fill(defaultItem));
+    this.width++;
+  }
+
+  getRow(y: number): (T | undefined)[] {
+    return this.cells.map(col => col[y])
+  }
+
+  insertRowAt(y: number, defaultItem: T): void {
+    this.cells.forEach(col => col.splice(y, 0, defaultItem));
+    this.height++;
   }
 
 
@@ -40,23 +66,23 @@ export class Grid<T> {
     if (width % 2 == 0 || height % 2 == 0) throw (`${errorMsg} - Both width and hight MUST be odd numbers!`);
     const xOffset = (width - 1) / 2;
     const yOffset = (height - 1) / 2;
-    if (X - xOffset < 0 
-     || X + xOffset > this.maxX 
-     || Y - yOffset < 0 
-     || Y + yOffset > this.maxY) throw (`${errorMsg} - subGrid overlaps at least one edge! xOffset = ${xOffset}, yOffset = ${yOffset}`);
+    if (X - xOffset < 0
+      || X + xOffset > this.maxX
+      || Y - yOffset < 0
+      || Y + yOffset > this.maxY) throw (`${errorMsg} - subGrid overlaps at least one edge! xOffset = ${xOffset}, yOffset = ${yOffset}`);
     const grid = new Grid<T>(width, height);
     for (let i = 0; i < width; i++) {
       const x = X - xOffset + i;
-      grid.cells[x] = this.cells[x].slice(Y - yOffset, Y + yOffset+1);
+      grid.cells[x] = this.cells[x].slice(Y - yOffset, Y + yOffset + 1);
     }
     return grid;
   }
 
-  logToConsole(formatter: (c:T|undefined) => string){
-    console.log(`--- ${this.maxX+1} X ${this.maxY+1} Grid -----`)
-    for(let y = 0; y<= this.maxY; y++){
+  logToConsole(formatter: (c: T | undefined) => string) {
+    console.log(`--- ${this.maxX + 1} X ${this.maxY + 1} Grid -----`)
+    for (let y = 0; y <= this.maxY; y++) {
       const Xs = this.cells.map(c => formatter(c[y])).join('');
-      console.log(('0'+y).slice(-4) + ' : ' + Xs);
+      console.log(('0' + y).slice(-4) + ' : ' + Xs);
     }
     console.log(`--- ---------------------`)
   }

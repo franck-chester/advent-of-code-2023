@@ -1,11 +1,11 @@
 ---
-to: day<%= ('0'+day).slice(-4) %>/Day<%= ('0'+day).slice(-4) %>.ts
+to: day<%= ('0'+day).slice(-2) %>/Day<%= ('0'+day).slice(-2) %>.ts
 unless_exists: true
 ---
 ///////////////////
 // BOILER PLATE  //
 ///////////////////
-const day = "Day<%= ('0'+day).slice(-4) %>";
+const day = "Day<%= ('0'+day).slice(-2) %>";
 export function part1(entries: string[]): string { return part1Implementation(entries); };
 part1.day = day;
 part1.testFile = 'test.txt';
