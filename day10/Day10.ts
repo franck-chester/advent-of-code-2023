@@ -9,13 +9,13 @@ const day = "Day10";
 export function part1(entries: string[]): string { return part1Implementation(entries); };
 part1.day = day;
 part1.testFile = ['test01.txt', 'test02.txt', 'test03.txt'];
-part1.example = ['4','8'];
+part1.example = ['4', '8'];
 part1.inputFile = 'input.txt';
 
 export function part2(entries: string[]): string { return part2Implementation(entries); };
 part2.day = day;
 part2.testFile = ['test04.txt', 'test05.txt', 'test06.txt'];
-part2.example = '???';
+part2.example = ['4', '8', '10'];
 part2.inputFile = 'input.txt';
 
 /////////////////////////////
@@ -47,65 +47,72 @@ function part1Implementation(entries: string[]) {
     distances.setCell(x, y, 0);
 
     // from the start, measure the distance
-    followNearestPipes(pipes, distances, x, y, 0);
+    followNearestPipes(pipes, distances, x, y);
 
     distances.logToConsole((c) => c !== undefined ? `${c}` : 'x');
-    let highestDistance = 0;
+    let pathLength = 0;
 
     for (x = 0; x <= pipes.maxX; x++) {
         for (y = 0; y <= pipes.maxY; y++) {
             const distance = distances.cells[x][y];
-            if (distance && distance > highestDistance) highestDistance = distance;
+            if (distance && distance > pathLength) pathLength = distance;
         }
     }
-
-
-    return `${highestDistance}`;
+    // close the path
+    pathLength++;
+    return `${pathLength / 2}`;
 }
 
-export function followNearestPipes(pipes: Grid<string>, distances: Grid<number>, X: number, Y: number, depth: number): boolean {
-    console.log(`followNearestPipes(X: ${X}, Y: ${Y}, , ${depth})...`)
-    const centrePipe = pipes.cells[X][Y]!;
-    const distanceSoFar = distances.cells[X][Y] ? distances.cells[X][Y]! : 0;
-    const valid = validNeighbours(centrePipe);
-    const cellOnLeft = X > 0 ? pipes.cells[X - 1][Y] : undefined;
-    const cellOnRight = X < pipes.maxX ? pipes.cells[X + 1][Y] : undefined;
-    const cellOnTop = Y > 0 ? pipes.cells[X][Y - 1] : undefined;
-    const cellOnBottom = Y < pipes.maxY ? pipes.cells[X][Y + 1] : undefined;
+export function followNearestPipes(pipes: Grid<string>, distances: Grid<number>, XStart: number, YStart: number) {
+    let X = XStart;
+    let Y = YStart;
+    while (true) {
+        //console.log(`followNearestPipes(X: ${X}, Y: ${Y})...`)
+        const centrePipe = pipes.cells[X][Y]!;
+        const distanceSoFar = distances.cells[X][Y] ? distances.cells[X][Y]! : 0;
+        const valid = validNeighbours(centrePipe);
+        const cellOnLeft = X > 0 ? pipes.cells[X - 1][Y] : undefined;
+        const cellOnRight = X < pipes.maxX ? pipes.cells[X + 1][Y] : undefined;
+        const cellOnTop = Y > 0 ? pipes.cells[X][Y - 1] : undefined;
+        const cellOnBottom = Y < pipes.maxY ? pipes.cells[X][Y + 1] : undefined;
 
-    const distanceOnTheLeft = X > 0 ? distances.cells[X - 1][Y] : -1;
-    let canGoLeft = cellOnLeft !== undefined && (valid.left.includes(cellOnLeft) && (distanceOnTheLeft === undefined || distanceOnTheLeft! > distanceSoFar + 1));
-    const distanceOnTheRight = X < pipes.maxX ? distances.cells[X + 1][Y] : -1;
-    let canGoRight = cellOnRight !== undefined && (valid.right.includes(cellOnRight) && (distanceOnTheRight === undefined || distanceOnTheRight! > distanceSoFar + 1));
-    const distanceOnTheTop = Y > 0 ? distances.cells[X][Y - 1] : -1;
-    let canGoTop = cellOnTop !== undefined && (valid.top.includes(cellOnTop) && (distanceOnTheTop === undefined || distanceOnTheTop! > distanceSoFar + 1));
-    const distanceOnTheBottom = Y < pipes.maxY ? distances.cells[X][Y + 1] : -1;
-    let canGoBottom = cellOnBottom !== undefined && (valid.bottom.includes(cellOnBottom) && (distanceOnTheBottom === undefined || distanceOnTheBottom! > distanceSoFar + 1));
+        const distanceOnTheLeft = X > 0 ? distances.cells[X - 1][Y] : -1;
+        let canGoLeft = cellOnLeft !== undefined && (valid.left.includes(cellOnLeft) && (distanceOnTheLeft === undefined || distanceOnTheLeft! > distanceSoFar + 1));
+        const distanceOnTheRight = X < pipes.maxX ? distances.cells[X + 1][Y] : -1;
+        let canGoRight = cellOnRight !== undefined && (valid.right.includes(cellOnRight) && (distanceOnTheRight === undefined || distanceOnTheRight! > distanceSoFar + 1));
+        const distanceOnTheTop = Y > 0 ? distances.cells[X][Y - 1] : -1;
+        let canGoTop = cellOnTop !== undefined && (valid.top.includes(cellOnTop) && (distanceOnTheTop === undefined || distanceOnTheTop! > distanceSoFar + 1));
+        const distanceOnTheBottom = Y < pipes.maxY ? distances.cells[X][Y + 1] : -1;
+        let canGoBottom = cellOnBottom !== undefined && (valid.bottom.includes(cellOnBottom) && (distanceOnTheBottom === undefined || distanceOnTheBottom! > distanceSoFar + 1));
 
+        //console.log(`followNearestPipes(${X},${Y}) : ${centrePipe} : ${canGoTop ? '↑' : 'x'} ${canGoRight ? '→' : 'x'} ${canGoBottom ? '↓' : 'x'} ${canGoLeft ? '←' : 'x'}`)
 
-    if (canGoLeft) {
-        distances.cells[X - 1][Y] = distanceSoFar + 1;
-        canGoLeft = followNearestPipes(pipes, distances, X - 1, Y, depth + 1);
+        if (canGoLeft) {
+            distances.cells[X - 1][Y] = distanceSoFar + 1;
+            X = X - 1;
+            continue;
+        }
+
+        if (canGoRight) {
+            distances.cells[X + 1][Y] = distanceSoFar + 1;
+            X = X + 1;
+            continue
+        }
+
+        if (canGoTop) {
+            distances.cells[X][Y - 1] = distanceSoFar + 1;
+            Y = Y - 1;
+            continue
+        }
+        if (canGoBottom) {
+            distances.cells[X][Y + 1] = distanceSoFar + 1;
+            Y = Y + 1;
+            continue;
+        }
+
+        // if we got this far, we've reached the end
+        break;
     }
-
-    if (canGoRight) {
-        distances.cells[X + 1][Y] = distanceSoFar + 1;
-        canGoRight = followNearestPipes(pipes, distances, X + 1, Y, depth + 1);
-    }
-
-    if (canGoTop) {
-        distances.cells[X][Y - 1] = distanceSoFar + 1;
-        canGoTop = followNearestPipes(pipes, distances, X, Y - 1, depth + 1);
-
-    }
-    if (canGoBottom) {
-        distances.cells[X][Y + 1] = distanceSoFar + 1;
-        canGoBottom = followNearestPipes(pipes, distances, X, Y + 1, depth + 1);
-
-    }
-    console.log(`followNearestPipes(${X},${Y}, ${depth}) : ${centrePipe} : ${canGoTop ? '↑' : 'x'} ${canGoRight ? '→' : 'x'} ${canGoBottom ? '↓' : 'x'} ${canGoLeft ? '←' : 'x'}`)
-
-    return canGoBottom || canGoLeft || canGoRight || canGoTop;
 }
 
 function validNeighbours(pipe: string): { left: string[], right: string[], top: string[], bottom: string[] } {
@@ -260,59 +267,62 @@ function part2Implementation(entries: string[]) {
     return `${insideCount}`;
 }
 
-export function followNearestPipes2(pipes: Grid<string>, visited: Grid<boolean>, X: number, Y: number, path: { x: number, y: number }[]) {
-    console.log(`followNearestPipes2(X: ${X}, Y: ${Y}, )...`)
-    visited.setCell(X, Y, true);
+export function followNearestPipes2(pipes: Grid<string>, visited: Grid<boolean>, XStart: number, YStart: number, path: { x: number, y: number }[]) {
+    let X = XStart;
+    let Y = YStart;
+    while (true) {
+        //console.log(`followNearestPipes2(X: ${X}, Y: ${Y}, )...`)
+        visited.setCell(X, Y, true);
 
-    const centrePipe = pipes.cells[X][Y]!;
+        const centrePipe = pipes.cells[X][Y]!;
 
-    const valid = validNeighbours(centrePipe);
-    const cellOnLeft = X > 0 ? pipes.cells[X - 1][Y] : undefined;
-    const cellOnRight = X < pipes.maxX ? pipes.cells[X + 1][Y] : undefined;
-    const cellOnTop = Y > 0 ? pipes.cells[X][Y - 1] : undefined;
-    const cellOnBottom = Y < pipes.maxY ? pipes.cells[X][Y + 1] : undefined;
+        const valid = validNeighbours(centrePipe);
+        const cellOnLeft = X > 0 ? pipes.cells[X - 1][Y] : undefined;
+        const cellOnRight = X < pipes.maxX ? pipes.cells[X + 1][Y] : undefined;
+        const cellOnTop = Y > 0 ? pipes.cells[X][Y - 1] : undefined;
+        const cellOnBottom = Y < pipes.maxY ? pipes.cells[X][Y + 1] : undefined;
 
-    let canGoLeft = cellOnLeft !== undefined && (valid.left.includes(cellOnLeft) && visited.cells[X - 1][Y] != true);
-    let canGoRight = cellOnRight !== undefined && (valid.right.includes(cellOnRight) && visited.cells[X + 1][Y] != true);
-    let canGoTop = cellOnTop !== undefined && (valid.top.includes(cellOnTop) && visited.cells[X][Y - 1] != true);
-    let canGoBottom = cellOnBottom !== undefined && (valid.bottom.includes(cellOnBottom) && visited.cells[X][Y + 1] != true);
+        let canGoLeft = cellOnLeft !== undefined && (valid.left.includes(cellOnLeft) && visited.cells[X - 1][Y] != true);
+        let canGoRight = cellOnRight !== undefined && (valid.right.includes(cellOnRight) && visited.cells[X + 1][Y] != true);
+        let canGoTop = cellOnTop !== undefined && (valid.top.includes(cellOnTop) && visited.cells[X][Y - 1] != true);
+        let canGoBottom = cellOnBottom !== undefined && (valid.bottom.includes(cellOnBottom) && visited.cells[X][Y + 1] != true);
 
 
-    if ('S' == centrePipe) {
-        // translate it to save us hassle when ray tracing
-        if (canGoLeft && canGoRight) pipes.setCell(X, Y, '-');
-        if (canGoTop && canGoBottom) pipes.setCell(X, Y, '|');
-        //  |
-        if (canGoLeft && canGoTop) pipes.setCell(X, Y, 'J');        // -S = ┙
-        if (canGoLeft && canGoBottom) pipes.setCell(X, Y, '7');     // -S = ┒
-        //  |
-        if (canGoRight && canGoTop) pipes.setCell(X, Y, 'L');       //  S-= ┗
-        if (canGoRight && canGoBottom) pipes.setCell(X, Y, 'F');    //  S-= ┍
-        //  | 
+        if ('S' == centrePipe) {
+            // translate it to save us hassle when ray tracing
+            if (canGoLeft && canGoRight) pipes.setCell(X, Y, '-');
+            if (canGoTop && canGoBottom) pipes.setCell(X, Y, '|');
+                                                                        //  |
+            if (canGoLeft && canGoTop) pipes.setCell(X, Y, 'J');        // -S = ┙
+            if (canGoLeft && canGoBottom) pipes.setCell(X, Y, '7');     // -S = ┒
+                                                                        //  |
+            if (canGoRight && canGoTop) pipes.setCell(X, Y, 'L');       //  S-= ┗
+            if (canGoRight && canGoBottom) pipes.setCell(X, Y, 'F');    //  S-= ┍
+                                                                        //  | 
+        }
+
+        if (canGoLeft) {
+            X = X - 1;
+            continue;
+        }
+
+        if (canGoRight) {
+            X = X + 1;
+            continue;
+        }
+
+        if (canGoTop) {
+            Y = Y - 1;
+            continue;
+
+        }
+        if (canGoBottom) {
+            Y = Y + 1;
+            continue;
+        }
+        //console.log(`followNearestPipes2(${X},${Y}) : ${centrePipe} : ${canGoTop?'↑':'x'} ${canGoRight?'→':'x'} ${canGoBottom?'↓':'x'} ${canGoLeft?'←':'x'}`)
+        break;
     }
-
-    if (canGoLeft) {
-        followNearestPipes2(pipes, visited, X - 1, Y, path);
-        return;
-    }
-
-    if (canGoRight) {
-        followNearestPipes2(pipes, visited, X + 1, Y, path);
-        return;
-    }
-
-    if (canGoTop) {
-        followNearestPipes2(pipes, visited, X, Y - 1, path);
-        return;
-
-    }
-    if (canGoBottom) {
-        followNearestPipes2(pipes, visited, X, Y + 1, path);
-        return;
-    }
-    //console.log(`followNearestPipes2(${X},${Y}) : ${centrePipe} : ${canGoTop?'↑':'x'} ${canGoRight?'→':'x'} ${canGoBottom?'↓':'x'} ${canGoLeft?'←':'x'}`)
-
-    return;
 }
 
 

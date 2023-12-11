@@ -19,11 +19,11 @@ export type AdventOfCodeChallenge = {
     (entries: string[]): string;
     day: string;
     testFile: string | string[];
-    example: string;
+    example: string | string[];
     inputFile: string;
 };
 
-export function determineDataFileName(adventOfCodeChallenge: AdventOfCodeChallenge, isTest : boolean, testNumber: number) {
+export function determineDataFileName(adventOfCodeChallenge: AdventOfCodeChallenge, isTest : boolean, testNumber = 0) {
     console.log(`determineDataFileName (isTest = ${isTest})...`);
     if(testNumber > 0 ){
         const dataFileNames = adventOfCodeChallenge[isTest ? 'testFile' : 'inputFile'];

@@ -174,15 +174,15 @@ An easy one today - shame as it's Saturday and I had time to do a hard one
 ## ⭐⭐ Day 10: Pipe Maze
 
 Part 1 wouldn't have been too hard if my Grid class had been ready.
-I also coded it as if paths could cross, instead of looking a for the single path and calculating its length.
-Definitely needs refactoring
-
-Also, solution would fail with a call stack exception (`RangeError: Maximum call stack size exceeded`) and I had to set node with a bigger stack (`--stack_size=8000`):
+I first coded it as if paths could cross, instead of looking a for the single path and calculating its length and then dividing by 2.
+I also started with a recursive solution which would fail with a call stack exception (`RangeError: Maximum call stack size exceeded`).
+I first worked around it by grabbing a bigger call stack (`--stack_size=8000`) (the `8000` is completely arbitrary, I increased the value until I got rid of the exception.):
 ```
 node  --stack_size=8000 -r ts-node/register  aoc2023-fn.ts 10 2
 ```
 
-The `8000` is completely arbitrary, increased the value until I got rid of the exception.
+This however stank to high heaven, and it turns out it was very easy, and actually much more efficient to [replace the recursion with a simpler iteration](https://refactoring.com/catalog/replaceRecursionWithIteration.html).
+
 
 I need to read [this article about recursion in js](https://stackforgeeks.com/blog/nodejs-tailcall-optimization-possible-or-not#unraveling-javascript-recursion-optimization-ptc-tco-and-the-ongoing-debate)
 
