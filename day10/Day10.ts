@@ -14,7 +14,7 @@ part1.inputFile = 'input.txt';
 
 export function part2(entries: string[]): string { return part2Implementation(entries); };
 part2.day = day;
-part2.testFile = ['test04.txt','test05.txt','test06.txt'];
+part2.testFile = ['test04.txt', 'test05.txt', 'test06.txt'];
 part2.example = '???';
 part2.inputFile = 'input.txt';
 
@@ -209,43 +209,56 @@ function part2Implementation(entries: string[]) {
                 v = visited.cells[x][Y];
                 if (v !== undefined && v == true) {// its a pipe 
                     let p = pipes.cells[x][Y]!;
-                    
+
                     if ('|' == p) {
                         countH += 1;
                     }
-                    if('F' == p) sectionStartedWithF = true;
-                    if('L' == p) sectionStartedWithL = true;
-                    if('J' == p){
-                        if(sectionStartedWithL){
+                    if ('F' == p) sectionStartedWithF = true;
+                    if ('L' == p) sectionStartedWithL = true;
+                    if ('J' == p) {
+                        if (sectionStartedWithL) {
                             // U corner (┖┚) counts as 2
-                            countH+=2;
+                            countH += 2;
                             sectionStartedWithL = false;
                         }
-                        if(sectionStartedWithF){
+                        if (sectionStartedWithF) {
                             // zig zag corner (┍┚) counts as 1
                             countH += 1;
                             sectionStartedWithF = false;
                         }
                     }
-                    
-                    if('7' == p){
-                        if(sectionStartedWithF){
-                            // U corner (┍┑) counts as 2
-                            countH+=2;
+
+                    if ('7' == p) {
+                        if (sectionStartedWithF) {
+                            if (x < pipes.maxX) {
+                                // U corner (┍┑) counts as 2
+                                countH += 2;
+
+                            }
+                            // else {
+                            //     countH += -1;
+                            // }
                             sectionStartedWithF = false;
                         }
-                        if(sectionStartedWithL){
-                            // zig zag corner (┖┒) counts as 1
-                            countH += 1;
+                        if (sectionStartedWithL) {
+                            if (x < pipes.maxX) {
+                                // zig zag corner (┖┒) counts as 1
+                                countH += 1;
+
+                            }
+                            // else {
+                            //     countH += 2;
+                            // }
+
                             sectionStartedWithL = false;
                         }
                     }
                 }
             }
 
-            
+
             pipes.setCell(X, Y, (countH % 2) == 0 ? 'O' : 'I');
-            insideCount += (countH % 2) == 0  ? 0 : 1;
+            insideCount += (countH % 2) == 0 ? 0 : 1;
         }
     }
     pipes.logToConsole((c) => c !== undefined ? c : '.');
@@ -255,7 +268,7 @@ function part2Implementation(entries: string[]) {
 }
 
 export function followNearestPipes2(pipes: Grid<string>, visited: Grid<boolean>, X: number, Y: number, path: { x: number, y: number }[]) {
-    console.log(`followNearestPipes2(X: ${X}, Y: ${Y}, )...`)
+    //console.log(`followNearestPipes2(X: ${X}, Y: ${Y}, )...`)
     visited.setCell(X, Y, true);
 
     const centrePipe = pipes.cells[X][Y]!;
@@ -272,16 +285,16 @@ export function followNearestPipes2(pipes: Grid<string>, visited: Grid<boolean>,
     let canGoBottom = cellOnBottom !== undefined && (valid.bottom.includes(cellOnBottom) && visited.cells[X][Y + 1] != true);
 
 
-    if('S' == centrePipe){
+    if ('S' == centrePipe) {
         // translate it to save us hassle when ray tracing
-        if(canGoLeft && canGoRight) pipes.setCell(X,Y, '-');
-                                                                //  |
-        if(canGoLeft && canGoTop) pipes.setCell(X,Y, 'J');      // -S = ┙
-        if(canGoLeft && canGoBottom) pipes.setCell(X,Y, '7');   // -S = ┒
-                                                                //  |
-        if(canGoRight && canGoTop) pipes.setCell(X,Y, 'L');     //  S-= ┗
-        if(canGoRight && canGoBottom) pipes.setCell(X,Y, 'F');  //  S-= ┍
-                                                                //  | 
+        if (canGoLeft && canGoRight) pipes.setCell(X, Y, '-');
+        //  |
+        if (canGoLeft && canGoTop) pipes.setCell(X, Y, 'J');      // -S = ┙
+        if (canGoLeft && canGoBottom) pipes.setCell(X, Y, '7');   // -S = ┒
+        //  |
+        if (canGoRight && canGoTop) pipes.setCell(X, Y, 'L');     //  S-= ┗
+        if (canGoRight && canGoBottom) pipes.setCell(X, Y, 'F');  //  S-= ┍
+        //  | 
     }
 
     if (canGoLeft) {
