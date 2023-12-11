@@ -9,7 +9,7 @@ const day = "Day10";
 export function part1(entries: string[]): string { return part1Implementation(entries); };
 part1.day = day;
 part1.testFile = ['test01.txt', 'test02.txt', 'test03.txt'];
-part1.example = '8';
+part1.example = ['4','8'];
 part1.inputFile = 'input.txt';
 
 export function part2(entries: string[]): string { return part2Implementation(entries); };

@@ -4,10 +4,21 @@ import { part1, part2} from './Day10'
 
 
 //////// PART 1
-test('example 1', () => {
-  expect(part1.example).toBe("???");
-  const dataFilePath = determineDataFileName(part1, true);
-  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part1(entries)).toBe(part1.example));
+test('part 1 - example 1', () => {
+  expect(part1.example[0]).toBe("4");
+  const dataFilePath = determineDataFileName(part1, true, 1);
+  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part1(entries)).toBe(part1.example[0]));
+});
+
+test('part 1 - example 2', () => {
+  expect(part1.example[1]).toBe("8");
+  const dataFilePath = determineDataFileName(part1, true, 2);
+  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part1(entries)).toBe(part1.example[1]));
+});
+
+test('part 1 - actual problem', () => {
+  const dataFilePath = determineDataFileName(part1, false);
+  return readEntriesFromDataFile(dataFilePath).then(entries => expect(part1(entries)).toBe('6951'));
 });
 
 //////// PART 2
