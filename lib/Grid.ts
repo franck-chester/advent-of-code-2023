@@ -52,10 +52,10 @@ export class Grid<T> {
     return grid;
   }
 
-  logToConsole(emptyCell : string){
-    console.log(`--- ${this.maxX} X ${this.maxY} Grid -----`)
+  logToConsole(formatter: (c:T|undefined) => string){
+    console.log(`--- ${this.maxX+1} X ${this.maxY+1} Grid -----`)
     for(let y = 0; y<= this.maxY; y++){
-      const Xs = this.cells.map((c,x) => `${c[y]??emptyCell}`).join('|');
+      const Xs = this.cells.map(c => formatter(c[y])).join('');
       console.log(('0'+y).slice(-4) + ' : ' + Xs);
     }
     console.log(`--- ---------------------`)
