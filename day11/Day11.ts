@@ -8,7 +8,7 @@ const day = "Day11";
 export function part1(entries: string[]): string { return part1Implementation(entries); };
 part1.day = day;
 part1.testFile = 'test.txt';
-part1.example = '???';
+part1.example = '374';
 part1.inputFile = 'input.txt';
 
 export function part2(entries: string[]): string { return part2Implementation(entries); };
@@ -48,20 +48,20 @@ function part1Implementation(entries: string[]) {
         }
     }
 
+    console.log(`Pairing...`);
     const galaxyPairs = [] as { g1: { x: number, y: number }, g2: { x: number, y: number } }[];
-    const galaxyPairNames = [] as string[];
+    const galaxyPairNames = new Set<string>();
     galaxies.forEach(g1 => galaxies.forEach(g2 => {
-        if ((g2 != g1) && !(galaxyPairNames.includes(`(${g2.x},${g2.y})(${g1.x},${g1.y})`))) {
+        if ((g2 != g1) && !(galaxyPairNames.has(`(${g2.x},${g2.y})(${g1.x},${g1.y})`))) {
             galaxyPairs.push({ g1, g2 });
-            galaxyPairNames.push(`(${g1.x},${g1.y})(${g2.x},${g2.y})`);
+            galaxyPairNames.add(`(${g1.x},${g1.y})(${g2.x},${g2.y})`);
         }
     }));
 
     console.log(`Found ${galaxyPairs.length} pairs of galaxies:`);
     const galaxyPairMinimumDistances = galaxyPairs.map(p => Math.abs(p.g2.x - p.g1.x) + Math.abs(p.g2.y - p.g1.y));
 
-    galaxyPairNames.forEach((p,i) => console.log(`${('0' + i).slice(-4)} : ${p} : ${galaxyPairMinimumDistances[i]}`))
-    console.log(`Distances : ${galaxyPairMinimumDistances}`);
+    //console.log(`Distances : ${galaxyPairMinimumDistances}`);
     let solution = galaxyPairMinimumDistances.reduce((a, b) => a + b);
     console.log(`${galaxyPairs.length} pairs add to ${solution}`)
     return `${solution}`;
@@ -106,12 +106,11 @@ function part2Implementation(entries: string[]) {
     }
     console.log(`Pairing...`);
     const galaxyPairs = [] as { g1: { x: number, y: number }, g2: { x: number, y: number } }[];
-    const galaxyPairNames = [] as string[];
-   
+    const galaxyPairNames = new Set<string>();
     galaxies.forEach(g1 => galaxies.forEach(g2 => {
-        if ((g2 != g1) && !(galaxyPairNames.includes(`(${g2.x},${g2.y})(${g1.x},${g1.y})`))) {
+        if ((g2 != g1) && !(galaxyPairNames.has(`(${g2.x},${g2.y})(${g1.x},${g1.y})`))) {
             galaxyPairs.push({ g1, g2 });
-            galaxyPairNames.push(`(${g1.x},${g1.y})(${g2.x},${g2.y})`);
+            galaxyPairNames.add(`(${g1.x},${g1.y})(${g2.x},${g2.y})`);
         }
     }));
 

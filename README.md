@@ -198,7 +198,8 @@ I also refactored my ray casting to start from an empty left hand side edge I'd 
 
 ## Day 11: Cosmic Expansion
 
-Part 1 was relatively easy, especially with my new `Grid` class, but runs slow so I'm probably missing an obvious optimisation
-
+Part 1 was relatively easy, especially with my new `Grid` class
 Part 2 should have been much easier, but I wasted time expanding by 10, 100, etc, instead of 9, 99, etc...
-Also runs like a hog.
+
+Solutions initially ran very slowly as I was using `Array.includes()` instead of `Set.has()` to avoid duplicate pairs of galaxies.
+This change improved time from `187164 ms` to `395 ms`
