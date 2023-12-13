@@ -196,10 +196,23 @@ I'd already put code in place to translate the `S` into a valid pipe symbol, but
 
 I also refactored my ray casting to start from an empty left hand side edge I'd inserted myself, to the cell examined, rather than from the cell to the right hand side ledge, which simplified the code a bit.
 
-## Day 11: Cosmic Expansion
+## ⭐⭐ Day 11: Cosmic Expansion
 
 Part 1 was relatively easy, especially with my new `Grid` class
 Part 2 should have been much easier, but I wasted time expanding by 10, 100, etc, instead of 9, 99, etc...
 
 Solutions initially ran very slowly as I was using `Array.includes()` instead of `Set.has()` to avoid duplicate pairs of galaxies.
 This change improved time from `187164 ms` to `395 ms`
+
+## 💀💀 Day 12: Hot Springs
+
+Not a good day, convinced myself I could do this with factorials but I'm not pretty sure I need to generate all the combinations myself.
+Will need to get back to this at a later date
+
+## ⭐⭐ Day 13: Point of Incidence
+
+Part 1 was relatively easy, again, tho I made a hash of it.
+
+Part 2 shouldn't have been much harder but it took me a very long time to realise I should ignore the line of symmetry identified by part 1, and only count the new ones that appear after the smudges are removed
+
+Once again the code is atrocious, didn't start pretty then got worse as I banged my head against 1 based indexes
