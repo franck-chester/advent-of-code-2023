@@ -80,9 +80,10 @@ export class Grid<T> {
 
   logToConsole(formatter: (c: T | undefined) => string) {
     console.log(`--- ${this.maxX + 1} X ${this.maxY + 1} Grid -----`)
+    console.log(`---- : ${'012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'.substring(0,this.width)}`)
     for (let y = 0; y <= this.maxY; y++) {
       const Xs = this.cells.map(c => formatter(c[y])).join('');
-      console.log(('0' + y).slice(-4) + ' : ' + Xs);
+      console.log(('000' + y).slice(-4) + ' : ' + Xs);
     }
     console.log(`--- ---------------------`)
   }
