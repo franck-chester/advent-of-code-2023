@@ -216,3 +216,20 @@ Part 1 was relatively easy, again, tho I made a hash of it.
 Part 2 shouldn't have been much harder but it took me a very long time to realise I should ignore the line of symmetry identified by part 1, and only count the new ones that appear after the smudges are removed
 
 Once again the code is atrocious, didn't start pretty then got worse as I banged my head against 1 based indexes
+
+## ⭐⭐ Day 14: Parabolic Reflector Dish
+
+Part 1 dead easy. 
+Part 2 not difficult either as long asyou realise the platform will eventually cycle through the same position, so need to figure when and how often and save ourselves a few 100 thousand cycles. 
+
+Again the code is not pretty. I also used a mad technique to tilt my rows:
+
+```
+
+```
+
+## ⭐⭐ Day 15: Lens Library
+
+Easy one today, even with 4h sleep and a bad hangover after Very' Xmas do last night. 
+
+Raw code is very poor, but it works. 
