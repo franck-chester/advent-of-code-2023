@@ -225,7 +225,8 @@ Part 2 not difficult either as long asyou realise the platform will eventually c
 Again the code is not pretty. I also used a mad technique to tilt my rows:
 
 ```
-
+const tiltLeft = direction === 'North' || direction === 'West';
+        let tiltedGroups = rowOrColumn.join('').split(/#+/).map((thingsBetweenRocks, i) => thingsBetweenRocks.replaceAll('.', '')[tiltLeft ? 'padEnd' : 'padStart'](thingsBetweenRocks.length, '.'));
 ```
 
 ## ⭐⭐ Day 15: Lens Library
