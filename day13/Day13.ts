@@ -50,7 +50,7 @@ function part1Implementation(entries: string[]) {
             if (lineOfSymmetry) {
                 console.log(`YES !! Found vertical line of symmetry at X = ${X}, adding  ${X}+1 = ${X + 1}`)
                 solution += X + 1;
-                grid.insertColumnAt(X + 1, '|');
+                grid.insertEmptyColumnAt(X + 1, '|');
                 break;
             }
         }

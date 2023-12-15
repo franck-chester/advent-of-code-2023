@@ -180,7 +180,7 @@ function part2Implementation(entries: string[]) {
     const maSteps = 6951; // part 1 solution
     const pipes = Grid.fromEntries<string>(entries, (s) => s);
     // insert a blank edged on the left hand side to simplify ray tracing
-    pipes.insertColumnAt(0, '.');
+    pipes.insertEmptyColumnAt(0, '.');
 
 
     pipes.logToConsole((c) => c !== undefined ? c : '.');

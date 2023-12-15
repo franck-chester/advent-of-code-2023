@@ -1,9 +1,14 @@
 
 export class Grid<T> {
-  width: number;
-  height: number;
   cells: (T | undefined)[][];
 
+  get width() {
+    return this.cells.length;
+  }
+
+  get height() {
+    return this.cells.length > 0 ? this.cells[0].length : 0;
+  }
   get maxX() {
     return this.width - 1;
   }
@@ -13,12 +18,10 @@ export class Grid<T> {
 
   constructor(width: number, height: number) {
     this.cells = [] as T[][]
-    this.width = width;
-    this.height = height;
 
-    for (let x = 0; x <= this.maxX; x++) {
+    for (let x = 0; x <= width - 1; x++) {
       this.cells.push([]);
-      for (let y = 0; y <= this.maxY; y++) {
+      for (let y = 0; y <= height - 1; y++) {
         this.cells[x].push(undefined as T);
       }
     }
@@ -46,9 +49,19 @@ export class Grid<T> {
     return this.cells[x]
   }
 
-  insertColumnAt(x: number, defaultItem: T): void {
+  insertEmptyColumnAt(x: number, defaultItem: T): void {
     this.cells.splice(x, 0, Array(this.width).fill(defaultItem));
-    this.width++;
+  }
+
+  pushColumn(col: T[]): void {
+    this.cells.push(col);
+  }
+  pushRow(row: T[]): void {
+    //console.log(`pushRow [${row}]`)
+    if(this.height == 0) row.forEach((_,x) =>  this.cells.push([]));
+    row.forEach((c,x) =>  this.cells[x].push(c));
+    //console.log(`pushRow - height was 0, is now ${this.height} after inserting row`)
+
   }
 
   getRow(y: number): (T | undefined)[] {
@@ -57,7 +70,7 @@ export class Grid<T> {
 
   insertRowAt(y: number, defaultItem: T): void {
     this.cells.forEach(col => col.splice(y, 0, defaultItem));
-    this.height++;
+
   }
 
 
@@ -80,7 +93,7 @@ export class Grid<T> {
 
   logToConsole(formatter: (c: T | undefined) => string) {
     console.log(`--- ${this.maxX + 1} X ${this.maxY + 1} Grid -----`)
-    console.log(`---- : ${'012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'.substring(0,this.width)}`)
+    console.log(`---- : ${'012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'.substring(0, this.width)}`)
     for (let y = 0; y <= this.maxY; y++) {
       const Xs = this.cells.map(c => formatter(c[y])).join('');
       console.log(('000' + y).slice(-4) + ' : ' + Xs);

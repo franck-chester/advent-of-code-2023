@@ -36,7 +36,7 @@ function part1Implementation(entries: string[]) {
     }
     console.log(`empty rows : ${emptyRows}, empty cols : ${emptyCols}, galaxy after expansion =`);
 
-    emptyCols.forEach(x => universe.insertColumnAt(x, '.'));
+    emptyCols.forEach(x => universe.insertEmptyColumnAt(x, '.'));
     emptyRows.forEach(y => universe.insertRowAt(y, '.'));
     universe.logToConsole(c => c!);
 
