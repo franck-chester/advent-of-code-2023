@@ -35,9 +35,9 @@
                 "ts-node/register"
             ],
             "args": [
-                "${workspaceFolder}/aoc2023-fn.ts",
-                "15",
-                "2",
+                "${cwd}/aoc2023-fn.ts",
+                "16",
+                "1",
                 "test"
             ],
             "localRoot": "C:/_workspaces/advent-of-code-2023",
