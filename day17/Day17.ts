@@ -122,6 +122,14 @@ function calculatePossibleNextSteps(grid: Grid<CityBlock>, location: { x: number
         possibleNextSteps.delete(location.direction);
     }
 
+    // can revisit somewhere we've already been
+    possibleNextSteps.forEach((step, direction) => {
+        if(grid.getCell(step.x, step.y)!.visited){
+              possibleNextSteps.delete(direction)
+        }else{
+            grid.getCell(step.x, step.y)!.visited = true;
+        }
+    });
 
     return Array.from(possibleNextSteps.values());
 }
