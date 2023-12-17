@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { determineDataFileName, readEntriesFromDataFile } from '../lib/AdventOfCodeChallenge';
-import { calculateCombinations, factorial, part1, part2 } from './Day12'
+import { factorial, filterOutImpossibleRecords, generateAllPotentialRecords, part1, part2 } from './Day12'
 
 
 //////// PART 1
@@ -12,40 +12,37 @@ test('factorial(n)', () => {
   expect(factorial(5)).toBe(15);
 });
 
-test('1- calculateCombinations(group: string, thisGroupSizes: number[]): number ', () => {
-  expect(calculateCombinations('???', [3])).toBe(1);   // ###  (3-3)!
-  expect(calculateCombinations('???', [1, 1])).toBe(1); // #.# (3-(1+1))! = 1! = 1
-  expect(calculateCombinations('????', [1, 1])).toBe(2); // .#.#, #.#.
-  expect(calculateCombinations('?????', [1, 1])).toBe(6); // #.#.., #..#., #...#, .#.#., .#..#, ..#.# = (5-(1+1)-0)! = 3! = 6
-  expect(calculateCombinations('?????', [1, 2])).toBe(3)  // #.##., #..##, .#.## = (5-(1+2)0)! = 2! = 3
-  expect(calculateCombinations('???????', [1, 2])).toBe(10)  // #.##..., #..##.., #...##., #....##, 
-  //                                                           .#.##.., .#..##., .#...##, 
-  //                                                           ..#.##., ..#..##, 
-  //                                                           ...#.## = 10 = (7-(1+2))! = 4! = 4+3+2+1 
-  expect(calculateCombinations('??????????', [1, 2, 3])).toBe(6)  // #.##.###.., #.##..###., #.##...###
-  //                                                              // .#.##.###., .#.##..###
-  //                                                              // .#..##.### 
-  //                                                              // ..#.##.### = 7 = (10-(1+2+3))! = (10-6)! = 4! <- NO ITS NOT!!
-  expect(calculateCombinations('???????????????', [1, 2, 3,4])).toBe(15)  // #.##.###.####.., #.##.###..####., #.##.###...####  
-  //                                                                         #..##.###.####., #..##.###..####
-  //                                                                         #...##.###.####
-  //                                                                         #.##..###.####., #.##..###..####
-  //                                                                         #.##...###.####
-  //                                                                         #.##.###...####
-  //                                                                         .#.##.###.####., .#.##.###..####
-  //                                                                         .#.##..###.####
-  //                                                                         .#..##.###.####
-  //                                                                         ..#.##.###.####
-  //                                                                         15 = 5! = (15-(1+2+3+4))!
+const test01 = [
+  "#.#.###..",
+  "#.#..###.",
+  "#..#.###.",
+  ".#.#.###.",
+  ".#.#..###",
+  ".#..#.###",
+  "..#.#.###"
+]
 
+test('generateAllPotentialRecords 1 ', () => {
+  expect(generateAllPotentialRecords([1,1,3], 7)).toStrictEqual([
+    "#.#.###"
+  ]);
+
+  expect(generateAllPotentialRecords([1,1,3], 8)).toStrictEqual([
+    "#.#.###.",
+    "#.#..###",
+    "#..#.###",
+    ".#.#.###"
+  ]);
+
+  expect(generateAllPotentialRecords([1,1,3], 9)).toStrictEqual(test01);
 });
 
-test('2 - calculateCombinations(group: string, thisGroupSizes: number[]): number ', () => {
-  expect(calculateCombinations('??#????', [1, 2])).toBe(3)  ; //  #.##..., ..#.##., ..#..##
-  expect(calculateCombinations('??#', [1, 1])          //  #.#
-    + calculateCombinations('#????', [0, 1])).toBe(3);   //    #...,#
-  expect(calculateCombinations('?##', [3])).toBe(1);   // ###
-  expect(calculateCombinations('??', [1])).toBe(2);    // .#, #.
+test('filterOutImpossibleRecords ', () => {
+  expect(filterOutImpossibleRecords(test01, "?#???????")).toStrictEqual([
+    ".#.#.###.",
+    ".#.#..###",
+    ".#..#.###",
+  ]);
 });
 
 //////// PART 2
