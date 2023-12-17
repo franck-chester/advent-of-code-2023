@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { determineDataFileName, readEntriesFromDataFile } from '../lib/AdventOfCodeChallenge';
-import { factorial, filterOutImpossibleRecords, generateAllPotentialRecords, part1, part2 } from './Day12'
+import { factorial, filterOutImpossibleRecords, generateAllPotentialRecords, part1, part2, unfold } from './Day12'
 
 
 //////// PART 1
@@ -46,6 +46,10 @@ test('filterOutImpossibleRecords ', () => {
 });
 
 //////// PART 2
+test('Unfold', () => {
+  expect(unfold('.#', '?')).toBe('.#?.#?.#?.#?.#');
+});
+
 test('example 2', () => {
   expect(part2.example).toBe("???");
   const dataFilePath = determineDataFileName(part2, true);

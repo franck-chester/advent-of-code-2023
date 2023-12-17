@@ -91,8 +91,22 @@ export function generateAllPotentialRecords(damagedGroupLengths: number[], recor
 // ACTUAL CODE - Part TWO  //
 /////////////////////////////
 function part2Implementation(entries: string[]) {
-    let solution = '???'
-    return `${solution}`;
+    let total = 0;
+    entries.forEach(entry => {
+        const splitEntry = entry.split(' ');
+        
+        const groups = unfold(splitEntry[1],',').split(',').map(c => parseInt(c));
+        
+        const record = unfold(splitEntry[0],'?');
+        const potentialRecords = generateAllPotentialRecords(groups, record.length);
+        //console.log(`${entry} - ${potentialRecords.length} potential arrangements`)
+        //potentialRecords.forEach(r => console.log(r))
+        const possibleRecords = filterOutImpossibleRecords(potentialRecords, record);
+        console.log(`${entry} : ${record} ${groups.join(',')} $- ${possibleRecords.length} arrangements`)
+        total += possibleRecords.length;
+
+    });
+    return `${total}`;
 }
 
 
@@ -113,6 +127,7 @@ function moveNFountainsFromGroupAtoB(potentialRecord: string[][], potentialRecor
     potentialRecord.at(b)?.splice(potentialRecord.at(b)!.length, 0, ...potentialRecord.at(a)!.splice(potentialRecord.at(a)!.length - n, n));
     potentialRecords.add(potentialRecord.flat().join(''));
     //console.log(`... after moving ${n} fountains from ${a} to ${b}           : ${potentialRecord.flat().join('')}`)
+    if(potentialRecords.size % 1000) console.log(`${potentialRecords.size} potential records so far...`);
 }
 
 
@@ -137,5 +152,9 @@ function processFountainsAtGroup(potentialRecord: string[][], potentialRecords: 
         moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, n, 0, resetTo);
     }
 
+}
+
+export function unfold(foldedValue: string, separator: string) {
+    return Array(5).fill(foldedValue).join(separator);
 }
 

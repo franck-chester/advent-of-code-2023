@@ -204,10 +204,15 @@ Part 2 should have been much easier, but I wasted time expanding by 10, 100, etc
 Solutions initially ran very slowly as I was using `Array.includes()` instead of `Set.has()` to avoid duplicate pairs of galaxies.
 This change improved time from `187164 ms` to `395 ms`
 
-## 💀💀 Day 12: Hot Springs
+## ⭐💀 Day 12: Hot Springs
 
-Not a good day, convinced myself I could do this with factorials but I'm not pretty sure I need to generate all the combinations myself.
-Will need to get back to this at a later date
+Really, really struggling with this one, just can't get my head around it.
+
+After **MANY** hours of very bad coding and very manual debugging I've managed to get past part 1, but I barely understand my own code and don't have an obvious place to add the short circuits needed for part 2. Just running part 2 on the test data and the 2n entry `.??..??...?##. 1,1,3` has already computed 160000+ potential candidates and didn't look close to stopping.
+
+Parking this as I've done it on day 17 and wasted all my coding time on it.
+Only saving grace is that I'm isolating in my office with a bad cold, so have some time left...
+
 
 ## ⭐⭐ Day 13: Point of Incidence
 
