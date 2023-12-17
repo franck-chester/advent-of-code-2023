@@ -239,3 +239,10 @@ const tiltLeft = direction === 'North' || direction === 'West';
 Easy one today, even with 4h sleep and a bad hangover after Very' Xmas do last night. 
 
 Raw code is very poor, but it works. 
+
+## ❔❔ Day 17: Clumsy Crucible
+
+started very late because of my re-attempt at Day 12.
+It's late, I have a cold, pausing for the night
+
+

@@ -35,8 +35,8 @@
             ],
             "args": [
                 "${cwd}/aoc2023-fn.ts",
-                "12",
-                "2",
+                "17",
+                "1",
                 "test"
             ],
             "localRoot": "C:/_workspaces/advent-of-code-2023",

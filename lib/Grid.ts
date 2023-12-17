@@ -1,4 +1,3 @@
-
 export class Grid<T> {
   cells: (T | undefined)[][];
 
@@ -27,11 +26,11 @@ export class Grid<T> {
     }
   }
 
-  public static fromEntries<T>(entries: string[], parseCell: (cellValue: string) => T) {
+  public static fromEntries<T>(entries: string[], parseCell: (cellValue: string, x?:number, y?:number) => T) {
     const grid = new Grid<T>(entries[0].length, entries.length);
     for (let x = 0; x <= grid.maxX; x++) {
       for (let y = 0; y <= grid.maxY; y++) {
-        grid.setCell(x, y, parseCell(entries[y].charAt(x)));
+        grid.setCell(x, y, parseCell(entries[y].charAt(x), x, y));
       }
     }
     return grid;
@@ -100,5 +99,32 @@ export class Grid<T> {
     }
     console.log(`--- ---------------------`)
   }
+}
+
+/////////////////////////////
+// ACTUAL CODE - Part ONE  //
+/////////////////////////////
+export type Step = {
+    x: number;
+    y: number;
+    direction: number;
+};
+export type Path = Array<Step>;
+
+// 0 is left to right, 1 top to bottom, 2 right to left, 3 bottom to top
+export const enum Direction {
+    Right = 0,
+    Down,
+    Left,
+    Up
+};
+
+export function oppositeDirection(direction: Direction): Direction {
+    switch (direction) {
+        case Direction.Right: return Direction.Left;
+        case Direction.Down: return Direction.Up;
+        case Direction.Left: return Direction.Right;
+        case Direction.Up: return Direction.Down;
+    }
 }
 
