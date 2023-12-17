@@ -5,7 +5,7 @@ const day = "Day12";
 export function part1(entries: string[]): string { return part1Implementation(entries); };
 part1.day = day;
 part1.testFile = 'test.txt';
-part1.example = '???';
+part1.example = '21';
 part1.inputFile = 'input.txt';
 
 export function part2(entries: string[]): string { return part2Implementation(entries); };
@@ -18,6 +18,7 @@ part2.inputFile = 'input.txt';
 // ACTUAL CODE - Part ONE  //
 /////////////////////////////
 function part1Implementation(entries: string[]) {
+    let total = 0;
     entries.forEach(entry => {
         const splitEntry = entry.split(' ');
         const groups = splitEntry[1].split(',').map(c => parseInt(c));
@@ -25,11 +26,11 @@ function part1Implementation(entries: string[]) {
         //console.log(`${entry} - ${potentialRecords.length} potential arrangements`)
         //potentialRecords.forEach(r => console.log(r))
         const possibleRecords = filterOutImpossibleRecords(potentialRecords, splitEntry[0]);
-        console.log(`   ${entry} - ${possibleRecords.length} arrangements`)
-
+        console.log(`${entry} - ${possibleRecords.length} arrangements`)
+        total += possibleRecords.length;
 
     });
-    return `???`;
+    return `${total}`;
 }
 
 export function filterOutImpossibleRecords(potentialRecords: string[], conditionRecord: string): string[] {
@@ -72,18 +73,11 @@ export function generateAllPotentialRecords(damagedGroupLengths: number[], recor
     iterations.fill(0);
     iterations[0] = 1;  // complete mind fuck this counting backward - here 0 is the last group
 
-    for (let p1 = 1; p1 <= paddingGroupLength; p1++) {
-        // reset = move all left to -1
-        moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, potentialRecord[0].length, 0, -1);
-        //console.log(`p1 = ${p1} reset = move all left to -1 (g=0) : ${potentialRecord.flat().join('')}`)
-        // move p1 fountains to one before last
-        moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, p1, -1, -3);
-
-        for (let g = 1; g < numberOfGroups; g++) {
-            const G = -(g * 2) - 1
-            processFountainsAtGroup(potentialRecord, potentialRecords, G, -3, '');
-        }
+    for (let g = 0; g < numberOfGroups; g++) {
+        const G = -(g * 2) - 1
+        processFountainsAtGroup(potentialRecord, potentialRecords, G, -1, '');
     }
+
 
     const result = Array.from(potentialRecords.values());
     // result.forEach(r => console.log(r));
@@ -124,20 +118,23 @@ function moveNFountainsFromGroupAtoB(potentialRecord: string[][], potentialRecor
 
 
 function processFountainsAtGroup(potentialRecord: string[][], potentialRecords: Set<string>, G: number, ResetBackTo : number, logPadding: string) {
-    const maxN = potentialRecord.at(G)!.length - 1;
+    const maxN = potentialRecord.at(G)!.length - (G==-1?0:1);
 
     //console.log(`${logPadding} processFountainsAtGroup - G=${G}, : ${potentialRecord.flat().join('')} (${maxN} fountains to process)...`)
     
 
     for (let n = 1; n <= maxN; n++) {
-        //console.log(`${logPadding} processFountainsAtGroup - G=${G}, n = ${n}...`)
+        //console.log(`${logPadding} processFountainsAtGroup - G=${G}, n = ${n}, maxN = ${maxN} : ${potentialRecord.join('|')} before ...`)
         moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, n, G, G - 2);
+        //console.log(`${logPadding} processFountainsAtGroup - G=${G}, n = ${n} : ${potentialRecord.flat().join('')} after`)
+        const resetTo = n<maxN ? G : ResetBackTo;
         if (G > (2-potentialRecord.length)) {
-            processFountainsAtGroup(potentialRecord, potentialRecords, G - 2, G, logPadding + '-');
+            processFountainsAtGroup(potentialRecord, potentialRecords, G - 2, resetTo, logPadding + '-');
         }
         // reset
-        //console.log(`${logPadding} processFountainsAtGroup - G=${G}, n = ${n} - reset back to ${ResetBackTo}`)
-        moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, n, 0, ResetBackTo);
+        
+        //console.log(`${logPadding} processFountainsAtGroup : G=${G}, n = ${n}, maxN=${maxN},ResetBackTo = ${ResetBackTo} :  reset back to ${resetTo}`)
+        moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, n, 0, resetTo);
     }
 
 }
