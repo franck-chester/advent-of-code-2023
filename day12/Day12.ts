@@ -23,7 +23,7 @@ function part1Implementation(entries: string[]) {
         const groups = splitEntry[1].split(',').map(c => parseInt(c));
         const potentialRecords = generateAllPotentialRecords(groups, splitEntry[0].length);
         //console.log(`${entry} - ${potentialRecords.length} potential arrangements`)
-        potentialRecords.forEach(r => console.log(r))
+        //potentialRecords.forEach(r => console.log(r))
         const possibleRecords = filterOutImpossibleRecords(potentialRecords, splitEntry[0]);
         console.log(`   ${entry} - ${possibleRecords.length} arrangements`)
 
@@ -60,7 +60,7 @@ export function generateAllPotentialRecords(damagedGroupLengths: number[], recor
     paddingGroup.length = recordLength - potentialRecordLength;
     const paddingGroupLength = recordLength - potentialRecordLength;
     paddingGroup.fill('.');
-    paddingGroup.forEach((e, i) => paddingGroup[i] = `${i + 1}`);  // for debugging purpose only
+    //paddingGroup.forEach((e, i) => paddingGroup[i] = `${i + 1}`);  // for debugging purpose only
     potentialRecord.push(paddingGroup);
     //numberOfGroups = potentialRecord.length;
 
@@ -76,20 +76,15 @@ export function generateAllPotentialRecords(damagedGroupLengths: number[], recor
         // reset = move all left to -1
         moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, potentialRecord[0].length, 0, -1);
         //console.log(`p1 = ${p1} reset = move all left to -1 (g=0) : ${potentialRecord.flat().join('')}`)
-
         // move p1 fountains to one before last
         moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, p1, -1, -3);
-        for(let p2=1; p2<=p1; p2++){
-            transportNFountainsFromGroupAtoB(potentialRecord, potentialRecords, p2, -3, 0);
-            if(p2<p1){
-             // reset = move all left to current group
-             moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, potentialRecord[0].length, 0, -3);
-             //console.log(`p1 = ${p1} reset = move all left to -3 -- p2 ${p2} of ${p1 - 1}  : ${potentialRecord.flat().join('')}`);
-            }
+
+        for (let g = 1; g < numberOfGroups; g++) {
+            const G = -(g * 2) - 1
+            processFountainsAtGroup(potentialRecord, potentialRecords, G, -3, '');
         }
-        
     }
-   
+
     const result = Array.from(potentialRecords.values());
     // result.forEach(r => console.log(r));
     return result;
@@ -126,15 +121,24 @@ function moveNFountainsFromGroupAtoB(potentialRecord: string[][], potentialRecor
     //console.log(`... after moving ${n} fountains from ${a} to ${b}           : ${potentialRecord.flat().join('')}`)
 }
 
-function transportNFountainsFromGroupAtoB(potentialRecord: string[][], potentialRecords: Set<string>, n: number, Ain: number, Bin: number) {
-    //console.log(`... transporting ${n} fountains from ${Ain} to ${Bin}...`);
-    const A = Ain >= 0 ? Ain - potentialRecord.length : Ain;
-    const B = Bin >= 0 ? Bin - potentialRecord.length : Bin;
-    let a = A;
 
-    for (let b = A - 2; b >= B; b -= 2) {
-        moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, n, a, b);
-        a = b;
+
+function processFountainsAtGroup(potentialRecord: string[][], potentialRecords: Set<string>, G: number, ResetBackTo : number, logPadding: string) {
+    const maxN = potentialRecord.at(G)!.length - 1;
+
+    //console.log(`${logPadding} processFountainsAtGroup - G=${G}, : ${potentialRecord.flat().join('')} (${maxN} fountains to process)...`)
+    
+
+    for (let n = 1; n <= maxN; n++) {
+        //console.log(`${logPadding} processFountainsAtGroup - G=${G}, n = ${n}...`)
+        moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, n, G, G - 2);
+        if (G > (2-potentialRecord.length)) {
+            processFountainsAtGroup(potentialRecord, potentialRecords, G - 2, G, logPadding + '-');
+        }
+        // reset
+        //console.log(`${logPadding} processFountainsAtGroup - G=${G}, n = ${n} - reset back to ${ResetBackTo}`)
+        moveNFountainsFromGroupAtoB(potentialRecord, potentialRecords, n, 0, ResetBackTo);
     }
+
 }
 
