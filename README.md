@@ -245,4 +245,10 @@ Raw code is very poor, but it works.
 started very late because of my re-attempt at Day 12.
 It's late, I have a cold, pausing for the night
 
+##
+
+```
+node  --max_old_space_size=8192 -r ts-node/register  aoc2023-fn.ts 18 2 test
+```
+
 
