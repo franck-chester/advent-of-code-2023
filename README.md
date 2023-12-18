@@ -245,9 +245,17 @@ Raw code is very poor, but it works.
 started very late because of my re-attempt at Day 12.
 It's late, I have a cold, pausing for the night
 
-## ⭐❔ Day 18: Lavaduct Lagoon
+## ⭐⭐ Day 18: Lavaduct Lagoon
+
+Did part 1 with a simplistic ray tracing approach, but that's far too much effort for the scale up part 2.
 
 Part 2 *test* fails with `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory`
 event with `node  --max_old_space_size=8192 -r ts-node/register  aoc2023-fn.ts 18 2 test`
+
+I figured out I needed to use the Shoelace algorithm (or rather the [Trapezoid formula](https://en.wikipedia.org/wiki/Shoelace_formula#Trapezoid_formula)) to calculate the area, but that wasn't giving me the right answer. In the end my Colleague Fish gave me a very strong hint to also use [Pick's algorithm](https://en.wikipedia.org/wiki/Pick%27s_theorem).
+
+Basically do shoelace to get the area, and then do a reverse pick to calculate the points inside, and finally add the boundary.
+
+
 
 
