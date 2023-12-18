@@ -15,13 +15,13 @@ export class Grid<T> {
     return this.height - 1;
   }
 
-  constructor(width: number, height: number) {
+  constructor(width: number, height: number, defaultValue?: T) {
     this.cells = [] as T[][]
 
     for (let x = 0; x <= width - 1; x++) {
       this.cells.push([]);
       for (let y = 0; y <= height - 1; y++) {
-        this.cells[x].push(undefined as T);
+        this.cells[x].push((typeof defaultValue !== 'undefined')? defaultValue : undefined as T);
       }
     }
   }
