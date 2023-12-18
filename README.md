@@ -245,10 +245,9 @@ Raw code is very poor, but it works.
 started very late because of my re-attempt at Day 12.
 It's late, I have a cold, pausing for the night
 
-##
+## ⭐❔ Day 18: Lavaduct Lagoon
 
-```
-node  --max_old_space_size=8192 -r ts-node/register  aoc2023-fn.ts 18 2 test
-```
+Part 2 *test* fails with `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory`
+event with `node  --max_old_space_size=8192 -r ts-node/register  aoc2023-fn.ts 18 2 test`
 
 
