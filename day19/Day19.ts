@@ -248,7 +248,7 @@ function part2Implementation(entries: string[]) {
                     rating[rangeMax] = rule.test-1;
                     state.destination = rule.destinationIfMatches
 
-                    //those below go to the destination that doesn't, 
+                    //those above go to the destination that doesn't, 
                     clone[rangeMin] = rule.test;
                     states.push({ rating: clone, destination: rule.destinationIfNot });
                 } else if (max < rule.test) {
@@ -272,8 +272,5 @@ function part2Implementation(entries: string[]) {
         solution += totalRating;
     });
 
-
-
-  
     return `${solution}`;
 }
