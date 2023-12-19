@@ -39,7 +39,7 @@ import(modulePath).then(dayModule => {
         const solution = adventOfCodeChallenge(processedLines);
         console.log(`\n\n ${'-'.repeat(80)}\n SOLUTION ${isTest ? "FOR TEST" : ""} Day ${dayName} part ${partId} : calculated ${solution}`);
         if (isTest) {
-            console.log(`  SOLUTION ${isTest ? "FOR TEST" : ""} Day ${dayName} part ${partId} : expected ${adventOfCodeChallenge.example} `);
+            console.log(` SOLUTION ${isTest ? "FOR TEST" : ""} Day ${dayName} part ${partId} : expected   ${adventOfCodeChallenge.example} `);
         }
         const endTime = performance.now();
         console.log(` Time elapsed : ${Math.round(endTime - startTime)} ms`);

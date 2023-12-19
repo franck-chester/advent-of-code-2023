@@ -257,5 +257,13 @@ I figured out I needed to use the Shoelace algorithm (or rather the [Trapezoid f
 Basically do shoelace to get the area, and then do a reverse pick to calculate the points inside, and finally add the boundary.
 
 
+## ⭐⭐  Day 19: Aplenty
 
+Part 1 is quite easy, just a lot of parsing.
+
+Part 2 is actually not that hard, but I initially panicked and checked [reddit](https://www.reddit.com/r/adventofcode/comments/18lwcw2/2023_day_19_an_equivalent_part_2_example_spoilers/). I really didn't like/understand the reference to binary [KD Trees](https://en.wikipedia.org/wiki/K-d_tree).
+
+However, the suggestion to flatten the workflows was what I needed. There is also the mention of a 4D cube with dimensions x*m*a*s but by then I'd figured it out, basically  a matter of processing and splitting ranges.
+Final hurdle was to realise that the number of options between min and max, both inclusive, is not `max-min`, but `1+max-min`. 
+I know, obvious but took me 30 min to spot this one  🙄
 
