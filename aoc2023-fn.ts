@@ -28,6 +28,11 @@ import(modulePath).then(dayModule => {
     const adventOfCodeChallenge = dayModule[`part${partId}`];
     const dataFilePath = determineDataFileName(adventOfCodeChallenge, isTest, testNumber);
 
+    if(Array.isArray(adventOfCodeChallenge.example) && (testNumber == 0)){
+        console.log(`This challenge defines multiple (${(<string[]>adventOfCodeChallenge.example).length}) tests. Cmd should look like ts-node aoc2022.ts <day> 1|2 [test] [test number]`);
+        process.exit(-1);
+    }
+
     const startTime = performance.now();
     console.log(`Day${dayName} - reading from ${dataFilePath}...`);
     console.log(`Day${dayName} - ${isTest ? " vvvvvvvvvvvvvv TEST INPUT vvvvvvvvvvvvvvv" : " vvvvvvvvvvvv REAL INPUT  vvvvvvvvvvvvvvvvv"}`);
@@ -36,10 +41,11 @@ import(modulePath).then(dayModule => {
         console.log(`Day${dayName} - ${isTest ? " TEST INPUT" : "ACTUAL INPUT"} ${processedLines.length} LINES PROCESSED`);
 
 
-        const solution = adventOfCodeChallenge(processedLines);
+        const solution = adventOfCodeChallenge(processedLines, isTest, testNumber);
         console.log(`\n\n ${'-'.repeat(80)}\n SOLUTION ${isTest ? "FOR TEST" : ""} Day ${dayName} part ${partId} : calculated ${solution}`);
         if (isTest) {
-            console.log(` SOLUTION ${isTest ? "FOR TEST" : ""} Day ${dayName} part ${partId} : expected   ${adventOfCodeChallenge.example} `);
+            const expected = testNumber > 0 ? adventOfCodeChallenge.example[testNumber-1] : adventOfCodeChallenge.example;
+            console.log(` SOLUTION ${isTest ? "FOR TEST" : ""} Day ${dayName} part ${partId} : expected   ${expected} `);
         }
         const endTime = performance.now();
         console.log(` Time elapsed : ${Math.round(endTime - startTime)} ms`);

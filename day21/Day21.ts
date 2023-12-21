@@ -5,7 +5,7 @@ import { Grid } from "../lib/Grid";
 
 ///////////////////
 const day = "Day21";
-export function part1(entries: string[]): string { return part1Implementation(entries); };
+export function part1(entries: string[], isTest?: boolean, testNumber?: number): string { return part1Implementation(entries, isTest, testNumber); };
 part1.day = day;
 part1.testFile = 'test.txt';
 part1.example = '???';
@@ -21,7 +21,7 @@ part2.inputFile = 'input.txt';
 // ACTUAL CODE - Part ONE  //
 /////////////////////////////
 type Node = { isPlot: boolean, x: number, y: number, tentativeDistance: number };
-function part1Implementation(entries: string[]) {
+function part1Implementation(entries: string[], isTest?: boolean, testNumber?: number) {
     let current: { x: number, y: number } | undefined;
     const grid = Grid.fromEntries(entries, (c, x, y) => {
         const node = { isPlot: (['.', 'S'].includes(c)), x: x!, y: y!, tentativeDistance: 0 };
@@ -29,7 +29,7 @@ function part1Implementation(entries: string[]) {
         return node;
     });
     if (current == undefined) throw `??`
-    const MinStepsToday = 64;
+    const MinStepsToday = isTest? 6 : 64;
     const tails = [current] as Node[];
     let total = 0;
     let step = 1;
@@ -44,15 +44,15 @@ function part1Implementation(entries: string[]) {
         [right, down, left, up].forEach(nextPossibleStep => {
             if (nextPossibleStep != undefined               // possible direction
                 && nextPossibleStep.isPlot                  // valid direction
-                && nextPossibleStep.tentativeDistance==0) { // somewhere we haven't been before
+                && nextPossibleStep.tentativeDistance == 0) { // somewhere we haven't been before
                 nextPossibleStep.tentativeDistance = stepsSoFar + 1;
-                    if (nextPossibleStep.tentativeDistance < MinStepsToday) {
-                        tails.push(nextPossibleStep);
-                    }
-                    if (nextPossibleStep.tentativeDistance <= MinStepsToday 
-                        && nextPossibleStep.tentativeDistance % 2 == 0) {
-                        total++;
-                    }
+                if (nextPossibleStep.tentativeDistance < MinStepsToday) {
+                    tails.push(nextPossibleStep);
+                }
+                if (nextPossibleStep.tentativeDistance <= MinStepsToday
+                    && nextPossibleStep.tentativeDistance % 2 == 0) {
+                    total++;
+                }
             }
         });
 

@@ -16,7 +16,7 @@ export async function readEntriesFromDataFile(dataFilePath : string) : Promise<s
 }
 
 export type AdventOfCodeChallenge = {
-    (entries: string[]): string;
+    (entries: string[], isTest? : boolean, testNumber?:number): string;
     day: string;
     testFile: string | string[];
     example: string | string[];
