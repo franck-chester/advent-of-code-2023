@@ -257,7 +257,7 @@ I figured out I needed to use the Shoelace algorithm (or rather the [Trapezoid f
 Basically do shoelace to get the area, and then do a reverse pick to calculate the points inside, and finally add the boundary.
 
 
-## ⭐⭐  Day 19: Aplenty
+## ⭐⭐ Day 19: Aplenty
 
 Part 1 is quite easy, just a lot of parsing.
 
@@ -267,3 +267,35 @@ However, the suggestion to flatten the workflows was what I needed. There is als
 Final hurdle was to realise that the number of options between min and max, both inclusive, is not `max-min`, but `1+max-min`. 
 I know, obvious but took me 30 min to spot this one  🙄
 
+## ⭐⭐ Day 20: Pulse Propagation
+
+Part 1 is quite easy, just a lot of parsing, again.
+Also took me a while to figure out where I needed my instruction stack, had it a layer down too many
+
+Part 2 is not hard, very much like day 8, a least common multiple problem.
+Trick is to actually check the data to decide on what we are looking for.
+In my case:
+```
+// The machine turns on when a single low pulse is sent to rx.
+// our data ends like this
+// &cl -> rx
+//  &js -> cl
+// 	    &zz -> th, hr, jk, bh, js
+//  &qs -> cl
+// 	    &mh -> ct, qs, vs, vk, pg
+//  &dt -> cl
+// 	    &cm -> jp, sk, ft, dt, gb
+//  &ts -> cl
+// 	    &kd -> qm, ml, ts, qv, rn
+// if we are lucky we just need to figure out what it will take for 
+// all inputs of &cl, ie &js, &qs, &dt and &ts to send it a high pulse 
+// so that &cl send a low pulse to rx 
+// 
+const clInputs = [
+`js -high-> cl`,
+`qs -high-> cl`,
+`dt -high-> cl`,
+`ts -high-> cl`]
+```
+
+I simply reused the format I was using till now for logging.

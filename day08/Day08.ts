@@ -1,5 +1,8 @@
 ///////////////////
 // BOILER PLATE  //
+
+import { leastCommonMultiple } from "../lib/AoCMaths";
+
 ///////////////////
 const day = "Day08";
 export function part1(entries: string[]): string { return part1Implementation(entries); };
@@ -37,20 +40,6 @@ function part1Implementation(entries: string[]) {
         solution++;
     }
     return `${solution}`;
-}
-
-/////////////////////////////
-// ACTUAL CODE - Part TWO  //
-/////////////////////////////
-
-// https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor
-function leastCommonMultiple(a: number, b:number) : number{
-    return (a*b)/greatestCommonDenominator(a, b);
-}
-
-// https://en.wikipedia.org/wiki/Greatest_common_divisor#Euclidean_algorithm
-function greatestCommonDenominator(a: number, b:number) : number{
-    return b > 0 ? greatestCommonDenominator(b, a % b) : a;
 }
 
 // Refactored this from my first working solution to make it clearer
