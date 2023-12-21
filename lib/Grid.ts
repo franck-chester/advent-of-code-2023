@@ -99,6 +99,10 @@ export class Grid<T> {
     }
     console.log(`--- ---------------------`)
   }
+
+  forEach(logic: (c: T | undefined, x?: number, y?: number) => any) {
+    this.cells.forEach((column, y) => column.forEach((c,x) => logic(c,x,y)));
+}
 }
 
 

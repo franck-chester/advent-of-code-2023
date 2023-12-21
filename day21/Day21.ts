@@ -29,7 +29,7 @@ function part1Implementation(entries: string[]) {
         return node;
     });
     if (current == undefined) throw `??`
-    const MinStepsToday = 6;
+    const MinStepsToday = 64;
     const tails = [current] as Node[];
     let total = 0;
     let step = 1;
@@ -41,28 +41,29 @@ function part1Implementation(entries: string[]) {
         const left = t.x > 0 ? grid.getCell(t.x - 1, t.y) : undefined;
         const up = t.y > 0 ? grid.getCell(t.x, t.y - 1) : undefined;
         const stepsSoFar = t.tentativeDistance;
-        [right, down, left, up].forEach(nextPossibleStep =>{
-            if (nextPossibleStep != undefined && nextPossibleStep.isPlot) {
-                if (nextPossibleStep.tentativeDistance < MinStepsToday) {
-                    nextPossibleStep.tentativeDistance = stepsSoFar+1;
-                    if(nextPossibleStep.tentativeDistance == MinStepsToday){
-                        total++;
-                    }
-                    else{
+        [right, down, left, up].forEach(nextPossibleStep => {
+            if (nextPossibleStep != undefined               // possible direction
+                && nextPossibleStep.isPlot                  // valid direction
+                && nextPossibleStep.tentativeDistance==0) { // somewhere we haven't been before
+                nextPossibleStep.tentativeDistance = stepsSoFar + 1;
+                    if (nextPossibleStep.tentativeDistance < MinStepsToday) {
                         tails.push(nextPossibleStep);
                     }
-                } 
+                    if (nextPossibleStep.tentativeDistance <= MinStepsToday 
+                        && nextPossibleStep.tentativeDistance % 2 == 0) {
+                        total++;
+                    }
             }
         });
 
-        console.log(`After ${step} step(s):`)
-        grid.logToConsole(c => c!.isPlot?`${c?.tentativeDistance}`:'#');
+        // console.log(`After ${step} step(s):`)
+        // grid.logToConsole(c => c!.isPlot ? `${c?.tentativeDistance}` : '#');
         step++;
-        
+
     }
 
     console.log(`All these can be reached in exactly  ${MinStepsToday} steps:`)
-    grid.logToConsole(c => c!.tentativeDistance == MinStepsToday?'O':(c!.isPlot?`.`:'#'));
+    grid.logToConsole(c => c!.tentativeDistance == MinStepsToday ? 'O' : (c!.isPlot ? `.` : '#'));
 
     let solution = total;
     return `${solution}`;

@@ -299,3 +299,20 @@ const clInputs = [
 ```
 
 I simply reused the format I was using till now for logging.
+
+## ⭐💀 Day 21: Step Counter
+
+Part 1 is really not that hard but I had a cold and a fever and got my knickers in a twist.
+For an event number on minimum steps for the day, like `6` and `64`, a plot can be walked to in that exact number of steps
+if it is even, allowing for bak and forth. Simple. In my feverish stupor I was coming out with incredibly complicated and stupid
+logic for this, instead of a simple
+```
+if (nextPossibleStep.tentativeDistance <= MinStepsToday 
+&& nextPossibleStep.tentativeDistance % 2 == 0) {
+  total++;
+}
+```
+
+Part 2 according to reddit is about finding patterns in the data, and some sort of quadratic equation, I'm not even going to bother.
+
+I have however started to add utility methods to my `Grid`, like today `foreach()`
