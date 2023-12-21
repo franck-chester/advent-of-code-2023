@@ -8,7 +8,7 @@ const day = "Day21";
 export function part1(entries: string[], isTest?: boolean, testNumber?: number): string { return part1Implementation(entries, isTest, testNumber); };
 part1.day = day;
 part1.testFile = 'test.txt';
-part1.example = '???';
+part1.example = '16';
 part1.inputFile = 'input.txt';
 
 export function part2(entries: string[]): string { return part2Implementation(entries); };
@@ -56,8 +56,10 @@ function part1Implementation(entries: string[], isTest?: boolean, testNumber?: n
             }
         });
 
-        // console.log(`After ${step} step(s):`)
-        // grid.logToConsole(c => c!.isPlot ? `${c?.tentativeDistance}` : '#');
+        if(isTest){
+            console.log(`After ${step} step(s):`)
+            grid.logToConsole(c => c!.isPlot ? `${c?.tentativeDistance}` : '#');
+        }
         step++;
 
     }

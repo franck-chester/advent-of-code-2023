@@ -91,18 +91,35 @@ export class Grid<T> {
   }
 
   logToConsole(formatter: (c: T | undefined) => string) {
-    console.log(`--- ${this.maxX + 1} X ${this.maxY + 1} Grid -----`)
-    console.log(`---- : ${'012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'.substring(0, this.width)}`)
+    const line = Array(this.width).fill('-').join('');
+    console.log(`----- ${this.maxX + 1} X ${this.maxY + 1} Grid ${line}`.substring(0, this.width+11));
+    let hundredsLine = '--- : ';
+    let tensLine = '--- : ';
+    let unitsLine = '--- : ';
+    for (let y = 0; y < this.width; y++) {
+      const hundreds = Math.floor(y / 100) % 10;
+      const tens = Math.floor(y / 10) % 10;
+      const units = y % 10;
+      hundredsLine += hundreds == 0 ? ' ' : hundreds;
+      tensLine += tens == 0 ? (hundreds == 0? ' ': tens) : tens;
+      unitsLine += units;
+    }
+    if(this.width>99) console.log(hundredsLine + ' : ---');
+    if(this.width>9)console.log(tensLine + ' : ---');
+    console.log(unitsLine + ' : ---');
     for (let y = 0; y <= this.maxY; y++) {
       const Xs = this.cells.map(c => formatter(c[y])).join('');
-      console.log(('000' + y).slice(-4) + ' : ' + Xs);
+      console.log(('' + y).padStart(3, ' ') + ' : ' + Xs + ' : ' + y);
     }
-    console.log(`--- ---------------------`)
+    if(this.width>99) console.log(hundredsLine + ' : ---');
+    if(this.width>9)console.log(tensLine + ' : ---');
+    console.log(unitsLine + ' : ---');
+    console.log(`------${line}------`)
   }
 
   forEach(logic: (c: T | undefined, x?: number, y?: number) => any) {
-    this.cells.forEach((column, y) => column.forEach((c,x) => logic(c,x,y)));
-}
+    this.cells.forEach((column, y) => column.forEach((c, x) => logic(c, x, y)));
+  }
 }
 
 
