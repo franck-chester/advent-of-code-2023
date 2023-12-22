@@ -30,7 +30,8 @@ function part1Implementation(entries: string[]) {
     const pipes = Grid.fromEntries<string>(entries, (s) => s);
     pipes.logToConsole((c) => c !== undefined ? c : '.');
     console.log('----------------------------')
-    const distances = new Grid<number>(pipes.maxX + 1, pipes.maxY + 1);
+    
+    const distances = new Grid<number>(pipes.maxX + 1, pipes.maxY + 1,(x,y)=>-1);
     // find the start
     let x = 0;
     let y = 0;
@@ -185,7 +186,7 @@ function part2Implementation(entries: string[]) {
 
     pipes.logToConsole((c) => c !== undefined ? c : '.');
     console.log('----------------------------')
-    const visited = new Grid<boolean>(pipes.maxX + 1, pipes.maxY + 1);
+    const visited = new Grid<boolean>(pipes.maxX + 1, pipes.maxY + 1, (x,y)=>false);
 
     // find the start
     let x = 0;

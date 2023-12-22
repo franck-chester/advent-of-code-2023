@@ -79,21 +79,21 @@ function part2Implementation(entries: string[]) {
 }
 
 export function tiltNWSE(platform: Grid<string>) {
-    let tiltedNorth = new Grid<string>(0, 0);
+    let tiltedNorth = new Grid<string>(0, 0, (x,y)=>'');
     for (let x = 0; x <= platform.maxX; x++) {
         tiltedNorth.pushColumn(tilt(platform.getCol(x), 'North'));
     }
     // console.log(`Cycle ${c} - North :`);
     // tiltedNorth.logToConsole(c=>c!);
     // console.log(`Cycle ${c} - West ...`);
-    let tiltedWest = new Grid<string>(0, 0);
+    let tiltedWest = new Grid<string>(0, 0, (x,y)=>'');
     for (let y = 0; y <= tiltedNorth.maxY; y++) {
         tiltedWest.pushRow(tilt(tiltedNorth.getRow(y), 'West'));
     }
     // console.log(`Cycle ${c} - West :`);
     // tiltedWest.logToConsole(c=>c!);
     //console.log(`Cycle ${c} - South ...`);
-    let tiltedSouth = new Grid<string>(0, 0);
+    let tiltedSouth = new Grid<string>(0, 0, (x,y)=>'');
     for (let x = 0; x <= tiltedWest.maxX; x++) {
         tiltedSouth.pushColumn(tilt(tiltedWest.getCol(x), 'South'));
     }
@@ -101,7 +101,7 @@ export function tiltNWSE(platform: Grid<string>) {
     // console.log(`Cycle ${c} - South :`);
     // tiltedWest.logToConsole(c=>c!);
     //console.log(`Cycle ${c} - East ...`);
-    let tiltedEast = new Grid<string>(0, 0);
+    let tiltedEast = new Grid<string>(0, 0, (x,y)=>'');
     for (let y = 0; y <= tiltedSouth.maxY; y++) {
         tiltedEast.pushRow(tilt(tiltedSouth.getRow(y), 'East'));
     }
